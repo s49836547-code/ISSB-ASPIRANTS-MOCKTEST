@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMA Long Course - Initial Test Practice Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#0a192f',
+                            900: '#020c1b',
+                            950: '#010811',
+                        },
+                        army: {
+                            green: '#1b4332',
+                            gold: '#d4af37',
+                            light: '#2d6a4f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbars and subtle UI accents */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a192f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e3a8a;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+        .figure-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+        /* Mobile touch improvements */
+        button, label {
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+
+    <!-- Top Header Navigation -->
+    <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-40 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-emerald-700 flex items-center justify-center text-amber-300 font-bold text-xl shadow-lg border border-amber-400/30">
+                    <i class="fas font-star">&#xf005;</i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-slate-100 tracking-tight leading-none">PMA LONG COURSE</h1>
+                    <span class="text-xs text-emerald-400 font-medium">Initial Test Practice Portal</span>
+                </div>
+            </div>
+
+            <!-- Candidate Profile Chip in Header -->
+            <div id="headerCandidateInfo" class="hidden flex items-center space-x-3 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                <div class="w-7 h-7 rounded-full bg-blue-600 text-xs font-bold flex items-center justify-center text-white" id="headerAvatar">
+                    U
+                </div>
+                <div class="text-xs hidden sm:block">
+                    <p id="headerCandidateName" class="font-semibold text-slate-200">Candidate Name</p>
+                    <p id="headerCandidateRoll" class="text-slate-400 font-mono text-[10px]">Roll: --</p>
+                </div>
+                <button onclick="app.switchCandidate()" title="Change Candidate Profile" class="text-slate-400 hover:text-amber-400 text-xs ml-1 transition">
+                    <i class="fas fa-user-gear"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto p-3 sm:p-6">
+        
+        <!-- ========================================== -->
+        <!-- VIEW 1: CANDIDATE LOGIN                    -->
+        <!-- ========================================== -->
+        <section id="viewLogin" class="w-full max-w-md mx-auto my-auto py-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="text-center mb-6">
+                    <div class="inline-flex p-3 rounded-2xl bg-slate-800 border border-slate-700 text-amber-400 mb-3">
+                        <i class="fas fa-user-shield text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-white">Candidate Registration</h2>
+                    <p class="text-xs text-slate-400 mt-1">Enter your details to initiate the PMA Practice Test evaluation.</p>
+                </div>
+
+                <form id="formLogin" onsubmit="app.handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Full Name</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" id="inputCandidateName" required placeholder="e.g. Muhammad Ali" class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Roll Number</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                                <i class="fas fa-id-card"></i>
+                            </span>
+                            <input type="text" id="inputCandidateRoll" required placeholder="e.g. PMA-2026-8942" class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm font-mono transition">
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-xl text-[11px] text-slate-400 flex items-start space-x-2">
+                        <i class="fas fa-info-circle text-amber-400 mt-0.5 flex-shrink-0"></i>
+                        <p>This is an independent self-assessment tool. Profiles and test statistics are saved locally in your browser.</p>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-950/50 transition transform active:scale-95 flex items-center justify-center space-x-2">
+                        <span>Proceed to Dashboard</span>
+                        <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: DASHBOARD                          -->
+        <!-- ========================================== -->
+        <section id="viewDashboard" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-slate-800">
+                    <div>
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-full text-xs font-medium mb-2">
+                            <i class="fas fa-award"></i>
+                            <span>PMA Long Course Initial Entrance Prep</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Candidate Dashboard</h2>
+                        <p class="text-slate-400 text-xs sm:text-sm mt-1">Review the fixed 3-stage assessment workflow below. Each stage requires 50% score to proceed.</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="app.showHistoryModal()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 flex items-center space-x-2 transition">
+                            <i class="fas fa-history text-amber-400"></i>
+                            <span>Attempt History</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stage Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+                    <!-- Stage 1 -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-5 relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold px-2.5 py-1 bg-blue-900/50 text-blue-300 rounded-md border border-blue-800">Stage 1</span>
+                                <span id="badgeStageVerbal" class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Locked</span>
+                            </div>
+                            <h3 class="font-bold text-white text-lg">Verbal Intelligence</h3>
+                            <ul class="text-xs text-slate-400 space-y-1.5 my-3">
+                                <li class="flex items-center justify-between">
+                                    <span>Questions:</span>
+                                    <span class="font-bold text-slate-200">84 MCQs</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Time Limit:</span>
+                                    <span class="font-bold text-slate-200">30 Mins</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Pass Mark (50%):</span>
+                                    <span class="font-bold text-emerald-400">42 Marks</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">
+                            Includes numerical, series, directions, and word logic.
+                        </div>
+                    </div>
+
+                    <!-- Stage 2 -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-5 relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold px-2.5 py-1 bg-purple-900/50 text-purple-300 rounded-md border border-purple-800">Stage 2</span>
+                                <span id="badgeStageNonVerbal" class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Locked</span>
+                            </div>
+                            <h3 class="font-bold text-white text-lg">Non-Verbal Intelligence</h3>
+                            <ul class="text-xs text-slate-400 space-y-1.5 my-3">
+                                <li class="flex items-center justify-between">
+                                    <span>Questions:</span>
+                                    <span class="font-bold text-slate-200">64 MCQs</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Time Limit:</span>
+                                    <span class="font-bold text-slate-200">30 Mins</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Pass Mark (50%):</span>
+                                    <span class="font-bold text-emerald-400">32 Marks</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">
+                            Visual figure matrices, pattern series, and spatial reasoning.
+                        </div>
+                    </div>
+
+                    <!-- Stage 3 -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-5 relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold px-2.5 py-1 bg-emerald-900/50 text-emerald-300 rounded-md border border-emerald-800">Stage 3</span>
+                                <span id="badgeStageAcademic" class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Locked</span>
+                            </div>
+                            <h3 class="font-bold text-white text-lg">Academic Assessment</h3>
+                            <ul class="text-xs text-slate-400 space-y-1.5 my-3">
+                                <li class="flex items-center justify-between">
+                                    <span>Questions:</span>
+                                    <span class="font-bold text-slate-200">50 MCQs</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Time Limit:</span>
+                                    <span class="font-bold text-slate-200">30 Mins</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Pass Mark (50%):</span>
+                                    <span class="font-bold text-emerald-400">25 Marks</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-800">
+                            GK/Pak Studies, Islamiat, English, Math, and Physics.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Launch Button -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-6 text-center space-y-4">
+                    <div class="max-w-xl mx-auto">
+                        <h4 class="text-lg font-bold text-slate-100">Ready to begin the complete evaluation?</h4>
+                        <p class="text-xs text-slate-400 mt-1">Tests must be taken in sequence. Each section starts with a mandatory 5-minute practice demo.</p>
+                    </div>
+
+                    <button onclick="app.startFullTestAttempt()" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-base rounded-xl shadow-xl shadow-emerald-950/60 transition transform hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center space-x-3">
+                        <i class="fas fa-play-circle text-xl text-amber-300"></i>
+                        <span>START PMA INITIAL TEST</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: DEMONSTRATION & INSTRUCTIONS SCREEN-->
+        <!-- ========================================== -->
+        <section id="viewDemo" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8">
+                <!-- Demo Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
+                            5-Minute Demonstration Practice
+                        </span>
+                        <h2 id="demoSectionTitle" class="text-2xl font-extrabold text-white mt-2">Section Demo</h2>
+                        <p class="text-xs text-slate-400">Get familiar with the controls before starting your timed 30-minute test.</p>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 px-4 py-2 rounded-xl text-center flex items-center space-x-3">
+                        <i class="fas fa-clock text-amber-400 text-xl"></i>
+                        <div class="text-left">
+                            <div class="text-[10px] text-slate-400 uppercase font-semibold">Demo Timer</div>
+                            <div id="demoTimerDisplay" class="font-mono text-xl font-bold text-amber-300">05:00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 my-6">
+                    <div class="lg:col-span-2 space-y-4">
+                        <!-- Practice Question Renderer Area -->
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-5">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+                                <span>Demo Question <strong id="demoQNum" class="text-slate-200">1</strong> of 5</span>
+                                <span class="text-amber-400"><i class="fas fa-flask"></i> Practice Only (Not Scored)</span>
+                            </div>
+                            <div id="demoQuestionText" class="text-slate-100 font-medium text-sm sm:text-base mb-4">
+                                Question text goes here...
+                            </div>
+                            <div id="demoFigureContainer" class="hidden mb-4 figure-box"></div>
+                            
+                            <!-- Options -->
+                            <div id="demoOptionsList" class="space-y-2">
+                                <!-- Rendered dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Demo Control Buttons -->
+                        <div class="flex items-center justify-between pt-2">
+                            <button id="btnDemoPrev" onclick="app.navigateDemo(-1)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">
+                                <i class="fas fa-arrow-left mr-1"></i> Previous
+                            </button>
+                            <button id="btnDemoNext" onclick="app.navigateDemo(1)" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition">
+                                Next <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Instructions Panel -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-5 space-y-4">
+                        <h4 class="font-bold text-amber-400 text-sm flex items-center space-x-2">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Test Controls Guide</span>
+                        </h4>
+                        <ul class="text-xs text-slate-300 space-y-2.5">
+                            <li class="flex items-start space-x-2">
+                                <i class="fas fa-check-circle text-emerald-400 mt-0.5"></i>
+                                <span><strong>Options:</strong> Click any option to select. You can change your choice anytime before submitting.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i class="fas fa-forward text-blue-400 mt-0.5"></i>
+                                <span><strong>Skip:</strong> Moves to the next question without answering. Skipped items stay unmarked on the palette.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i class="fas fa-th text-purple-400 mt-0.5"></i>
+                                <span><strong>Palette:</strong> Click numbers in the side panel to jump directly to any question.</span>
+                            </li>
+                        </ul>
+
+                        <div class="pt-4 border-t border-slate-800">
+                            <button onclick="app.finishDemoAndStartActual()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-emerald-950/60 transition flex items-center justify-center space-x-2">
+                                <span>START ACTUAL SECTION</span>
+                                <i class="fas fa-bolt text-amber-300"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 4: ACTUAL TIMED TEST SCREEN           -->
+        <!-- ========================================== -->
+        <section id="viewTest" class="hidden space-y-4">
+            <!-- Test Top Control Bar -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+                    <div>
+                        <span id="testSectionBadge" class="text-[10px] font-bold uppercase tracking-wider text-blue-400 bg-blue-400/10 px-2.5 py-0.5 rounded border border-blue-400/20">Section</span>
+                        <h3 id="testSectionTitle" class="text-lg font-bold text-white">Section Title</h3>
+                    </div>
+                    <div class="md:hidden font-mono text-lg font-bold text-amber-300 bg-slate-950 px-3 py-1 rounded-lg border border-slate-800" id="testTimerMobile">
+                        30:00
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 w-full md:w-auto justify-between md:justify-end">
+                    <div class="hidden md:flex items-center space-x-2 bg-slate-950 border border-slate-800 px-4 py-1.5 rounded-xl">
+                        <i class="fas fa-hourglass-half text-amber-400 text-sm"></i>
+                        <span class="text-xs text-slate-400 font-semibold">TIME LEFT:</span>
+                        <span id="testTimerDesktop" class="font-mono text-xl font-bold text-amber-300">30:00</span>
+                    </div>
+
+                    <button onclick="app.confirmTestSubmission()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold rounded-xl shadow-md transition flex items-center space-x-2">
+                        <i class="fas fa-check-double"></i>
+                        <span>Submit Section</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Question & Palette Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                <!-- Question Column (3 cols) -->
+                <div class="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-h-[420px]">
+                    <div>
+                        <!-- Question Header -->
+                        <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800 text-xs text-slate-400">
+                            <span>Question <strong id="testQNum" class="text-slate-100 text-sm">1</strong> of <span id="testQTotal">84</span></span>
+                            <span id="testCategoryBadge" class="bg-slate-800 text-slate-300 px-2.5 py-1 rounded text-[11px]">Category</span>
+                        </div>
+
+                        <!-- Question Text -->
+                        <div id="testQuestionText" class="text-slate-100 text-base sm:text-lg font-medium leading-relaxed mb-4">
+                            Loading question text...
+                        </div>
+
+                        <!-- Visual Figure Display (for Non-Verbal) -->
+                        <div id="testFigureContainer" class="hidden mb-6 figure-box max-w-md mx-auto"></div>
+
+                        <!-- Options List -->
+                        <div id="testOptionsList" class="space-y-3">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex items-center justify-between pt-6 border-t border-slate-800 mt-6">
+                        <button id="btnTestPrev" onclick="app.navigateTest(-1)" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition flex items-center space-x-2">
+                            <i class="fas fa-chevron-left"></i>
+                            <span>Previous</span>
+                        </button>
+
+                        <div class="flex items-center space-x-2">
+                            <button onclick="app.skipQuestion()" class="px-4 py-2.5 bg-slate-800 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold rounded-xl transition">
+                                Skip
+                            </button>
+
+                            <button id="btnTestNext" onclick="app.navigateTest(1)" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition flex items-center space-x-2">
+                                <span>Next</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Palette Side Column (1 col) -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 pb-3 border-b border-slate-800 mb-3 flex items-center justify-between">
+                            <span>Question Palette</span>
+                            <i class="fas fa-th-large text-slate-500"></i>
+                        </h4>
+
+                        <!-- Legend -->
+                        <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-400 mb-4">
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span>
+                                <span>Answered</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-3 h-3 rounded bg-amber-500 inline-block"></span>
+                                <span>Skipped</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-3 h-3 rounded bg-slate-800 inline-block"></span>
+                                <span>Unanswered</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <span class="w-3 h-3 rounded bg-blue-600 inline-block"></span>
+                                <span>Current</span>
+                            </div>
+                        </div>
+
+                        <!-- Grid Palette Container -->
+                        <div id="paletteGrid" class="grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-5 gap-1.5 max-h-[300px] overflow-y-auto pr-1">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-800 mt-4 text-[11px] text-slate-500 text-center">
+                        Click any number to jump directly.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 5: SECTION RESULT SCREEN              -->
+        <!-- ========================================== -->
+        <section id="viewSectionResult" class="hidden max-w-2xl mx-auto my-auto py-6 w-full">
+            <div id="sectionResultCard" class="bg-slate-900 border rounded-2xl p-6 sm:p-8 text-center space-y-6 shadow-2xl">
+                <!-- Dynamic Banner Header -->
+                <div id="resultBanner" class="p-4 rounded-xl flex flex-col items-center justify-center space-y-2">
+                    <div id="resultIconBox" class="w-16 h-16 rounded-full flex items-center justify-center text-3xl font-extrabold shadow-lg"></div>
+                    <h2 id="resultHeading" class="text-2xl sm:text-3xl font-extrabold tracking-tight">PORTION RESULT</h2>
+                    <p id="resultSubheading" class="text-xs sm:text-sm max-w-md">Detailed breakdown of your section performance.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="text-[10px] font-semibold text-slate-400 block uppercase">Obtained Score</span>
+                        <span id="resScoreText" class="text-xl font-bold text-slate-100">0 / 0</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="text-[10px] font-semibold text-slate-400 block uppercase">Percentage</span>
+                        <span id="resPercentageText" class="text-xl font-bold text-slate-100">0%</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="text-[10px] font-semibold text-slate-400 block uppercase">Required Pass</span>
+                        <span id="resRequiredText" class="text-xl font-bold text-emerald-400">50%</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <span class="text-[10px] font-semibold text-slate-400 block uppercase">Status</span>
+                        <span id="resStatusBadge" class="text-sm font-bold uppercase block mt-1">PASSED</span>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 border-t border-slate-800">
+                    <button onclick="app.showAnswerReview()" class="w-full sm:w-auto px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+                        <i class="fas fa-list-check text-amber-400"></i>
+                        <span>Review Answers</span>
+                    </button>
+
+                    <button id="btnResultContinue" onclick="app.proceedToNextStage()" class="w-full sm:w-auto px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                        <span>CONTINUE TO NEXT SECTION</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                    <button id="btnResultRestart" onclick="app.restartTestAttempt()" class="hidden w-full sm:w-auto px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-extrabold rounded-xl transition flex items-center justify-center space-x-2">
+                        <i class="fas fa-rotate-left"></i>
+                        <span>Start New Attempt</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 6: FINAL COMPREHENSIVE RESULT SCREEN  -->
+        <!-- ========================================== -->
+        <section id="viewFinalResult" class="hidden max-w-3xl mx-auto py-6 w-full space-y-6">
+            <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 sm:p-8 text-center space-y-6 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="inline-flex p-4 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-4xl">
+                    <i class="fas fa-trophy"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">CONGRATULATIONS! YOU HAVE COMPLETED ALL THREE PORTIONS</h2>
+                    <p class="text-emerald-400 font-bold text-lg mt-1">FINAL RESULT: ELIGIBLE</p>
+                    <p class="text-xs text-slate-400 mt-1">You have met all cutoff criteria for Verbal, Non-Verbal, and Academic entrance evaluations.</p>
+                </div>
+
+                <!-- Final Breakdown Table -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden text-xs text-left">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-800/80 text-slate-300 font-bold border-b border-slate-700">
+                                <th class="p-3">Section</th>
+                                <th class="p-3 text-center">Score</th>
+                                <th class="p-3 text-center">Percentage</th>
+                                <th class="p-3 text-center">Cutoff</th>
+                                <th class="p-3 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-100">Verbal Intelligence</td>
+                                <td id="finalVerbalScore" class="p-3 text-center font-mono">0/84</td>
+                                <td id="finalVerbalPct" class="p-3 text-center font-bold">0%</td>
+                                <td class="p-3 text-center text-slate-400">50%</td>
+                                <td class="p-3 text-right font-bold text-emerald-400">PASSED</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-100">Non-Verbal Intelligence</td>
+                                <td id="finalNonVerbalScore" class="p-3 text-center font-mono">0/64</td>
+                                <td id="finalNonVerbalPct" class="p-3 text-center font-bold">0%</td>
+                                <td class="p-3 text-center text-slate-400">50%</td>
+                                <td class="p-3 text-right font-bold text-emerald-400">PASSED</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-100">Academic Assessment</td>
+                                <td id="finalAcademicScore" class="p-3 text-center font-mono">0/50</td>
+                                <td id="finalAcademicPct" class="p-3 text-center font-bold">0%</td>
+                                <td class="p-3 text-center text-slate-400">50%</td>
+                                <td class="p-3 text-right font-bold text-emerald-400">PASSED</td>
+                            </tr>
+                            <tr class="bg-emerald-950/30 font-bold text-slate-100">
+                                <td class="p-3 text-emerald-300">COMBINED TOTAL</td>
+                                <td id="finalCombinedScore" class="p-3 text-center font-mono text-amber-300">0/198</td>
+                                <td id="finalCombinedPct" class="p-3 text-center text-amber-300">0%</td>
+                                <td class="p-3 text-center text-slate-400">50%</td>
+                                <td class="p-3 text-right text-emerald-400">ELIGIBLE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                    <button onclick="app.restartTestAttempt()" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition">
+                        Start Fresh Test Attempt
+                    </button>
+                    <button onclick="app.showDashboard()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700 transition">
+                        Return to Dashboard
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 7: ANSWER REVIEW MODAL/VIEW           -->
+        <!-- ========================================== -->
+        <section id="viewAnswerReview" class="hidden space-y-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Answer Keys & Explanations</h3>
+                        <p class="text-xs text-slate-400">Review your responses against the verified answer key.</p>
+                    </div>
+                    <button onclick="app.closeAnswerReview()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition">
+                        Back to Result
+                    </button>
+                </div>
+
+                <div id="answerReviewList" class="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Attempt History Modal -->
+    <div id="modalHistory" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+                    <i class="fas fa-history text-amber-400"></i>
+                    <span>Local Test Attempt History</span>
+                </h3>
+                <button onclick="app.closeHistoryModal()" class="text-slate-400 hover:text-white">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div class="text-xs text-slate-400 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                <i class="fas fa-database text-blue-400 mr-1"></i>
+                Note: Local records are stored in this web browser session and do not sync across devices.
+            </div>
+
+            <div id="historyTableContainer" class="flex-grow overflow-y-auto">
+                <!-- History list rendered here -->
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex justify-between items-center">
+                <button onclick="app.clearLocalHistory()" class="text-xs text-red-400 hover:text-red-300 font-semibold">
+                    <i class="fas fa-trash-can mr-1"></i> Clear Local History
+                </button>
+                <button onclick="app.closeHistoryModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-4 px-4 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© 2026 PMA Long Course Practice Web App. Designed for candidates By ISSB Aspirants (Sir Ahmad).</p>
+            <p class="text-[11px] text-slate-600">Non-official educational assessment utility.</p>
+        </div>
+    </footer>
+
+    <script>
+        
+        // ---------------------------------------------------------------------
+        // QUESTION BANKS DATA STRUCTURES
+        // ---------------------------------------------------------------------
+
+        // 1. DEMO QUESTIONS (5 per section)
+        const DEMO_QUESTIONS = {
+            verbal: [
+                { id: "DV1", question: "If YES is coded as 123, then SEY will be coded as:", options: { A: "321", B: "213", C: "312", D: "132" }, correctAnswer: "A", explanation: "Reverse the letter positions: Y(1) E(2) S(3) becomes S(3) E(2) Y(1)." },
+                { id: "DV2", question: "Which one is different from the rest?", options: { A: "Car", B: "Bus", C: "Train", D: "Bicycle" }, correctAnswer: "C", explanation: "Train runs on rails, whereas the others run on road." },
+                { id: "DV3", question: "What comes next in the series: 2, 4, 8, 16, ___?", options: { A: "20", B: "24", C: "32", D: "64" }, correctAnswer: "C", explanation: "Each number is multiplied by 2." },
+                { id: "DV4", question: "Brother is to Sister as Nephew is to:", options: { A: "Aunt", B: "Niece", C: "Cousin", D: "Mother" }, correctAnswer: "B", explanation: "Gender pairing relationship." },
+                { id: "DV5", question: "If yesterday was Friday, what day will it be tomorrow?", options: { A: "Saturday", B: "Sunday", C: "Monday", D: "Tuesday" }, correctAnswer: "B", explanation: "Yesterday=Friday -> Today=Saturday -> Tomorrow=Sunday." }
+            ],
+            nonverbal: [
+                { id: "DNV1", category: "Figure Analogy", question: "Select the figure that completes the analogy: the first pair shows the rule.", fig: { kind: "analogy", a: "tri.f@center, ci.o@top, ci.o@bl, ci.o@br", b: "ci.f@center, tri.w@in0", c: "sq.f@center, ci.o@top, ci.o@bl, ci.o@br" }, optFigs: null, options: { A: "Figure A", B: "Figure B", C: "Figure C", D: "Figure D" }, correctAnswer: "A", explanation: "The outer shape becomes filled and the inner satellites swap inside it.", _opts: ["sq.f@center, ci.w@in0", "ci.f@center, sq.w@in0", "sq.o@center, ci.f@in0", "tri.f@center, ci.w@in0"], _r: 1 },
+                { id: "DNV2", category: "Figure Series", question: "Which figure comes next in the series?", fig: { kind: "series", seq: ["tri.o@top", "tri.o@right", "tri.o@bottom"] }, options: { A: "Figure A", B: "Figure B", C: "Figure C", D: "Figure D" }, correctAnswer: "A", explanation: "The triangle moves clockwise one side each step, so it points left next.", _opts: ["tri.o@left", "tri.o@top", "sq.o@left", "ci.o@left"], _r: 2 },
+                { id: "DNV3", category: "Figure Count", question: "Apply the same count change to the second row of shapes.", fig: { kind: "analogy", a: "sq.o@left, sq.o@right", b: "sq.o@left, sq.o@center, sq.o@right", c: "ci.o@left, ci.o@right" }, options: { A: "Figure A", B: "Figure B", C: "Figure C", D: "Figure D" }, correctAnswer: "A", explanation: "One shape is added in the middle; do the same for circles.", _opts: ["ci.o@left, ci.o@center, ci.o@right", "ci.o@left, ci.o@right", "ci.f@left, ci.f@right", "sq.o@left, sq.o@center, sq.o@right"], _r: 3 },
+                { id: "DNV4", category: "Shading", question: "Outline becomes solid in the first pair. Apply it to the square.", fig: { kind: "analogy", a: "ci.o@center", b: "ci.f@center", c: "sq.o@center" }, options: { A: "Figure A", B: "Figure B", C: "Figure C", D: "Figure D" }, correctAnswer: "A", explanation: "The outline shape turns solid.", _opts: ["sq.f@center", "sq.h@center", "ci.f@center", "sq.o@center"], _r: 0 },
+                { id: "DNV5", category: "Nesting", question: "The inner and outer shapes swap places in the first pair. Apply to the second.", fig: { kind: "analogy", a: "sq.o@center, ci.o@in0", b: "ci.o@center, sq.o@in0", c: "tri.o@center, sq.o@in0" }, options: { A: "Figure A", B: "Figure B", C: "Figure C", D: "Figure D" }, correctAnswer: "A", explanation: "Inner and outer shapes exchange positions.", _opts: ["sq.o@center, tri.o@in0", "tri.o@center, sq.o@in0", "sq.f@center, tri.o@in0", "ci.o@center, tri.o@in0"], _r: 1 }
+            ],
+            academic: [
+                { id: "DA1", question: "What is the capital city of Pakistan?", options: { A: "Karachi", B: "Lahore", C: "Islamabad", D: "Rawalpindi" }, correctAnswer: "C", explanation: "Islamabad is the federal capital of Pakistan." },
+                { id: "DA2", question: "How many obligatory (Farz) daily prayers are there in Islam?", options: { A: "3", B: "4", C: "5", D: "6" }, correctAnswer: "C", explanation: "There are 5 daily obligatory prayers." },
+                { id: "DA3", question: "What is 10% of 150?", options: { A: "10", B: "15", C: "20", D: "25" }, correctAnswer: "B", explanation: "150 * 0.10 = 15." },
+                { id: "DA4", question: "SI unit of Force is:", options: { A: "Joule", B: "Watt", C: "Newton", D: "Pascal" }, correctAnswer: "C", explanation: "Force is measured in Newtons (N)." },
+                { id: "DA5", question: "Identify the noun in: 'Ali plays cricket.'", options: { A: "Plays", B: "Ali", C: "Quickly", D: "With" }, correctAnswer: "B", explanation: "Ali is a proper noun." }
+            ]
+        };
+
+        // Demo entries store the correct option first (_opts); rotate them like the banks.
+        Object.keys(DEMO_QUESTIONS).forEach(sec => {
+            DEMO_QUESTIONS[sec] = DEMO_QUESTIONS[sec].map(e => {
+                if (!e._opts) return e;
+                const o = rotatedOptions(e._opts[0], [e._opts[1], e._opts[2], e._opts[3]], e._r || 0);
+                const ne = Object.assign({}, e);
+                if (sec === "nonverbal") { ne.optFigs = o.options; ne.options = { A: "Figure A", B: "Figure B", C: "Figure C", D: "Figure D" }; }
+                else { ne.options = o.options; }
+                ne.correctAnswer = o.correctAnswer;
+                delete ne._opts; delete ne._r;
+                return ne;
+            });
+        });
+
+        // Verbal bank transcribed from "Paid Verbals By ISSB ASPIRANTS.pdf".
+        // Each entry: a = correct answer text, w = three distractors, r = rotation seed
+        // so the correct letter varies across A-D instead of always being first.
+        const VERBAL_RAW = [
+            { id: "V1", cat: "Calendar", q: "If the 28th day of a month is Sunday, then the 2nd day of the month will be:", a: "Tuesday", w: ["Monday", "Wednesday", "Friday"], r: 1, x: "7th, 14th, 21st and 28th are Sundays; counting back from the 7th gives Tuesday the 2nd." },
+            { id: "V2", cat: "Calendar", q: "If yesterday was Sunday, then the day after tomorrow will be:", a: "Wednesday", w: ["Tuesday", "Thursday", "Monday"], r: 2, x: "Today is Monday, so the day after tomorrow is Wednesday." },
+            { id: "V3", cat: "Calendar", q: "If the 4th day of a month is Friday, then the 19th day will be:", a: "Saturday", w: ["Sunday", "Friday", "Thursday"], r: 3, x: "4th, 11th and 18th are Fridays, so the 19th is Saturday." },
+            { id: "V4", cat: "Arithmetic", q: "90% of 90 = ?", a: "81", w: ["80", "90", "8.1"], r: 0, x: "90 x 0.90 = 81." },
+            { id: "V5", cat: "Arithmetic", q: "One third of 10% of 90 = ?", a: "3", w: ["9", "30", "0.3"], r: 1, x: "10% of 90 = 9; one third of 9 = 3." },
+            { id: "V6", cat: "Arithmetic", q: "One third of 10% of 120 = ?", a: "4", w: ["3", "12", "40"], r: 2, x: "10% of 120 = 12; one third of 12 = 4." },
+            { id: "V7", cat: "General Knowledge", q: "According to the source key, how many months in a year have 30 days?", a: "Seven", w: ["Six", "Four", "Five"], r: 3, x: "Source key states seven months." },
+            { id: "V8", cat: "Rate & Work", q: "If 1 man writes 5 papers in 5 minutes, then 1 man will write 1 paper in:", a: "1 minute", w: ["5 minutes", "25 minutes", "5 seconds"], r: 0, x: "Source key: 1 paper per minute for one man." },
+            { id: "V9", cat: "Percentage", q: "Out of 500 students, 360 are boys. The percentage of girls will be:", a: "28%", w: ["36%", "64%", "72%"], r: 1, x: "Girls = 140; 140/500 = 28%." },
+            { id: "V10", cat: "Arithmetic", q: "2 + 2/2 = ?", a: "3", w: ["2", "4", "1"], r: 2, x: "Division first: 2/2 = 1; 2 + 1 = 3." },
+            { id: "V11", cat: "Arithmetic", q: "Quarter of one tenth of 120 = ?", a: "3", w: ["12", "30", "40"], r: 3, x: "One tenth of 120 = 12; quarter of 12 = 3." },
+            { id: "V12", cat: "Percentage", q: "There are 30 passengers in a bus. If 2/3 of them are men, the percentage of women is:", a: "33.33%", w: ["66.67%", "20%", "50%"], r: 0, x: "Women = 1/3 of passengers = 33.33%." },
+            { id: "V13", cat: "Profit & Loss", q: "Ali bought a pen for Rs 30 and sold it for Rs 40. The profit percentage is:", a: "33.33%", w: ["25%", "40%", "10%"], r: 1, x: "Profit 10 on cost 30 = 33.33%." },
+            { id: "V14", cat: "Classification", q: "Point out the different one: Angle, Rectangle, Square, Hexagon.", a: "Angle", w: ["Rectangle", "Square", "Hexagon"], r: 2, x: "The rest are closed figures; an angle is not." },
+            { id: "V15", cat: "Classification", q: "Point out the different one: Cricket, Football, Tennis, Baseball.", a: "Football", w: ["Cricket", "Tennis", "Baseball"], r: 3, x: "Source key: Football is the odd one out." },
+            { id: "V16", cat: "Classification", q: "Point out the different one: Hockey, Football, Basketball, Tennis.", a: "Football", w: ["Hockey", "Basketball", "Tennis"], r: 0, x: "Source key: Football is the odd one out." },
+            { id: "V17", cat: "Classification", q: "Point out the different one: Wheat, Hay, Rice, Barley.", a: "Hay", w: ["Wheat", "Rice", "Barley"], r: 1, x: "Hay is dried grass, not a grain crop." },
+            { id: "V18", cat: "Classification", q: "Point out the different one: Monkey, Ape, Chimpanzee, Panda.", a: "Panda", w: ["Monkey", "Ape", "Chimpanzee"], r: 2, x: "Panda is not an ape/primate of the same family." },
+            { id: "V19", cat: "Classification", q: "Point out the different one: America, Africa, Asia, Euro.", a: "Euro", w: ["America", "Africa", "Asia"], r: 3, x: "Euro is a currency, the rest are continents." },
+            { id: "V20", cat: "Calendar", q: "If the 4th day of a month is Tuesday, then the 26th day of the month will be:", a: "Wednesday", w: ["Tuesday", "Thursday", "Monday"], r: 0, x: "4th, 11th, 18th, 25th are Tuesdays; the 26th is Wednesday." },
+            { id: "V21", cat: "Fraction", q: "There are 30 passengers in a bus. If 2/3 of them are men, the number of women is:", a: "10", w: ["20", "15", "12"], r: 1, x: "Men = 20, so women = 10." },
+            { id: "V22", cat: "Direction Sense", q: "A man walks towards north, then turns left. After some time he turns right. His present direction is:", a: "North", w: ["West", "East", "South"], r: 2, x: "North -> left (West) -> right (North)." },
+            { id: "V23", cat: "Number Series", q: "Complete the series: 115, 55, 170, 65, 235, ?", a: "75", w: ["85", "65", "95"], r: 3, x: "Two alternating series: 115,170,235 (+55) and 55,65,75 (+10)." },
+            { id: "V24", cat: "Number Series", q: "Complete the series: 66, 63, 57, 45, ?", a: "21", w: ["24", "33", "39"], r: 0, x: "Differences double: -3, -6, -12, -24." },
+            { id: "V25", cat: "Number Series", q: "Complete the series: 2, 6, 14, 30, 62, ?", a: "126", w: ["124", "130", "94"], r: 1, x: "Each term = previous x 2 + 2." },
+            { id: "V26", cat: "Letter Series", q: "Complete the series: B, E, J, Q, ?", a: "X", w: ["W", "Y", "V"], r: 2, x: "Gaps +3, +5, +7, +9." },
+            { id: "V27", cat: "Letter Series", q: "Complete the series: A, C, F, J, O, ?", a: "U", w: ["T", "V", "W"], r: 3, x: "Gaps +2, +3, +4, +5, +6." },
+            { id: "V28", cat: "Letter Series", q: "Complete the series: L, M, N, ?", a: "O", w: ["M", "N", "P"], r: 0, x: "Consecutive letters of the alphabet." },
+            { id: "V29", cat: "Calendar", q: "If the 4th day of a month is Sunday, then the 19th day will be:", a: "Monday", w: ["Sunday", "Tuesday", "Saturday"], r: 1, x: "4th, 11th, 18th are Sundays; the 19th is Monday." },
+            { id: "V30", cat: "Calendar", q: "If the 14th day of a month is Sunday, then the 4th day of the month will be:", a: "Thursday", w: ["Friday", "Wednesday", "Tuesday"], r: 2, x: "14th Sunday -> 7th Sunday -> 4th is Thursday." },
+            { id: "V31", cat: "Verbal Reasoning", q: "Parents give education to their children to ___ them.", a: "Groom", w: ["Punish", "Ignore", "Delay"], r: 3, x: "Education grooms (prepares) children." },
+            { id: "V32", cat: "Verbal Reasoning", q: "We boil milk to:", a: "Kill germs", w: ["Cool it", "Add taste", "Freeze it"], r: 0, x: "Boiling kills germs." },
+            { id: "V33", cat: "Calendar", q: "If yesterday was Friday, then the day after tomorrow will be:", a: "Monday", w: ["Sunday", "Saturday", "Tuesday"], r: 1, x: "Today is Saturday; day after tomorrow is Monday." },
+            { id: "V34", cat: "Speed & Distance", q: "A train's speed is twice that of a car. If the car covers 60 km in one hour, how much distance will the train cover in 30 minutes?", a: "60 km", w: ["30 km", "120 km", "15 km"], r: 2, x: "Train = 120 km/h; in 30 minutes = 60 km." },
+            { id: "V35", cat: "Verbal Reasoning", q: "Bat cannot ___ and snake cannot ___.", a: "See, Hear", w: ["Hear, See", "Fly, Swim", "See, Smell"], r: 3, x: "A bat cannot see and a snake cannot hear." },
+            { id: "V36", cat: "Verbal Reasoning", q: "The sound of an eagle is called:", a: "Scream", w: ["Hoot", "Crow", "Bleat"], r: 0, x: "An eagle screams." },
+            { id: "V37", cat: "Percentage", q: "In a class of 1500 students, 1200 are present. The percentage of absent students is:", a: "20%", w: ["80%", "12%", "25%"], r: 1, x: "Absent = 300; 300/1500 = 20%." },
+            { id: "V38", cat: "Blood Relations", q: "If my brother's sister is your mother, then who am I to you?", a: "Uncle", w: ["Grandfather", "Cousin", "Brother"], r: 2, x: "My brother's sister = my sister = your mother, so I am your uncle." },
+            { id: "V39", cat: "Calendar", q: "If the 1st day of a month is Monday, then the 12th day of the month will be:", a: "Friday", w: ["Saturday", "Sunday", "Thursday"], r: 3, x: "1st and 8th are Mondays; the 12th is Friday." },
+            { id: "V40", cat: "Rate & Work", q: "If 5 men write 5 pages in 5 minutes, then 1 man will write 1 page in:", a: "5 minutes", w: ["1 minute", "25 minutes", "10 minutes"], r: 0, x: "Each man writes one page in the same 5 minutes." },
+            { id: "V41", cat: "Speed & Distance", q: "Train speed is double that of a car and the car travels 30 km in 1 hour. How much distance will the train cover in 30 minutes?", a: "30 km", w: ["60 km", "15 km", "45 km"], r: 1, x: "Train = 60 km/h; in 30 minutes = 30 km." },
+            { id: "V42", cat: "Speed & Distance", q: "If a man travels 90 km in 1 hour 40 minutes, he will cover 1 km in:", a: "1.1 minutes", w: ["0.9 minute", "9 minutes", "0.11 minute"], r: 2, x: "100 minutes / 90 km = 1.11 minutes per km." },
+            { id: "V43", cat: "Arithmetic", q: "80% of 90 = ?", a: "72", w: ["70", "80", "82"], r: 3, x: "90 x 0.80 = 72." },
+            { id: "V44", cat: "Percentage", q: "In a class room out of 1500 students, 1200 are present. The percentage of present students is:", a: "80%", w: ["20%", "75%", "85%"], r: 0, x: "1200/1500 = 80%." },
+            { id: "V45", cat: "Calendar", q: "If the second day of a month is Monday, then the 12th day will be:", a: "Friday", w: ["Thursday", "Saturday", "Monday"], r: 1, x: "2nd and 9th are Mondays; the 12th is Friday." },
+            { id: "V46", cat: "Calendar", q: "If the 2nd day of a month is Sunday, then the 23rd day will be:", a: "Sunday", w: ["Monday", "Saturday", "Tuesday"], r: 2, x: "2nd, 9th, 16th and 23rd are all Sundays." },
+            { id: "V47", cat: "Arithmetic", q: "One third of 120 = ?", a: "40", w: ["30", "60", "36"], r: 3, x: "120 / 3 = 40." },
+            { id: "V48", cat: "Arithmetic", q: "If one dozen pencils cost Rs 27, then the price of 4 pencils is:", a: "9", w: ["12", "8", "6"], r: 0, x: "27/12 = 2.25 each; 4 x 2.25 = 9." },
+            { id: "V49", cat: "Direction Sense", q: "Ali moves toward the north side, after some time he turns left then again turns left. His present direction is:", a: "South", w: ["North", "East", "West"], r: 1, x: "North -> West -> South." },
+            { id: "V50", cat: "Percentage", q: "Out of 500 students 340 are present. The percentage of absent students is:", a: "32%", w: ["68%", "34%", "16%"], r: 2, x: "Absent = 160; 160/500 = 32%." },
+            { id: "V51", cat: "Speed & Distance", q: "A train is moving with a speed of 90 km/h. How much distance will it cover in 12 minutes?", a: "18 km", w: ["12 km", "9 km", "24 km"], r: 3, x: "90 km/h = 1.5 km/min; x 12 = 18 km." },
+            { id: "V52", cat: "Speed & Distance", q: "A man covers 20 km in one hour and 40 minutes. Then he will cover 1 km in:", a: "5 minutes", w: ["0.2 minute", "2 minutes", "8 minutes"], r: 0, x: "100 minutes / 20 km = 5 minutes per km." },
+            { id: "V53", cat: "Calendar", q: "If the 15th day of a month is Monday, then the 4th day of the month is:", a: "Thursday", w: ["Friday", "Wednesday", "Monday"], r: 1, x: "15th and 8th are Mondays; the 4th is Thursday." },
+            { id: "V54", cat: "Percentage", q: "In a class of 24 students, 1/4 are male. Then the percentage of females is:", a: "75%", w: ["25%", "50%", "66%"], r: 2, x: "Females = 3/4 = 75%." },
+            { id: "V55", cat: "Direction Sense", q: "A man walks towards north and then turns left then turns right. His present direction is:", a: "North", w: ["West", "East", "South"], r: 3, x: "North -> West -> North." },
+            { id: "V56", cat: "Letter Logic", q: "The third letter when 'AUGMENTED' is arranged alphabetically will be:", a: "D", w: ["E", "A", "G"], r: 0, x: "Sorted: A A D E E G M N T U; third letter is D." },
+            { id: "V57", cat: "Analogy", q: "Vehicle is to wheels as sound is to:", a: "Waves", w: ["Ears", "Air", "Music"], r: 1, x: "A vehicle travels on wheels; sound travels as waves." },
+            { id: "V58", cat: "General Knowledge", q: "A leap year comes after every:", a: "4 years", w: ["2 years", "5 years", "10 years"], r: 2, x: "Leap years recur every 4 years." },
+            { id: "V59", cat: "Speed & Distance", q: "A train covers 120 km in 1 hour 40 minutes. How much distance will it cover in 15 minutes?", a: "18 km", w: ["30 km", "20 km", "25 km"], r: 3, x: "120 km in 100 minutes = 1.2 km/min; x 15 = 18 km." },
+            { id: "V60", cat: "Calendar", q: "If yesterday was Friday, tomorrow will be:", a: "Sunday", w: ["Saturday", "Monday", "Thursday"], r: 0, x: "Today is Saturday, so tomorrow is Sunday." },
+            { id: "V61", cat: "Calendar", q: "If the 4th day of a month is Sunday, then the 14th day is:", a: "Wednesday", w: ["Monday", "Tuesday", "Sunday"], r: 1, x: "4th and 11th are Sundays; the 14th is Wednesday." },
+            { id: "V62", cat: "Speed & Distance", q: "A car is moving at 120 km/h. How much distance does it cover in 10 minutes?", a: "20 km", w: ["12 km", "24 km", "10 km"], r: 2, x: "120 km/h = 2 km/min; x 10 = 20 km." },
+            { id: "V63", cat: "Arithmetic", q: "120 x 7 = ?", a: "840", w: ["740", "820", "940"], r: 3, x: "120 x 7 = 840." },
+            { id: "V64", cat: "Calendar", q: "If the 28th day of a month is Monday, then the 8th day will be:", a: "Tuesday", w: ["Monday", "Wednesday", "Sunday"], r: 0, x: "28th, 21st, 14th, 7th are Mondays; the 8th is Tuesday." },
+            { id: "V65", cat: "Direction Sense", q: "If Ahmad walks towards north and then turns left, what is his present direction?", a: "West", w: ["East", "South", "North"], r: 1, x: "A left turn from north faces west." },
+            { id: "V66", cat: "Calendar", q: "If the 2nd day of a month is Friday, then the 23rd day will be:", a: "Friday", w: ["Thursday", "Saturday", "Sunday"], r: 2, x: "2nd, 9th, 16th and 23rd are Fridays." },
+            { id: "V67", cat: "Age Problems", q: "Ali's present age is 5 years and Sidra is twice Ali's age. What will be Sidra's age when Ali is 11 years old?", a: "16", w: ["22", "15", "20"], r: 3, x: "Sidra is 10 now (5 years older); when Ali is 11, Sidra is 16." },
+            { id: "V68", cat: "Calendar", q: "If Monday is the 1st day of a month, the 13th day will be:", a: "Saturday", w: ["Sunday", "Friday", "Monday"], r: 0, x: "1st and 8th are Mondays; the 13th is Saturday." },
+            { id: "V69", cat: "Arithmetic", q: "Quarter of 120 = ?", a: "30", w: ["40", "60", "20"], r: 1, x: "120 / 4 = 30." },
+            { id: "V70", cat: "Percentage", q: "In a class of 500, 340 are boys. The percentage of boys is:", a: "68%", w: ["32%", "34%", "66%"], r: 2, x: "340/500 = 68%." },
+            { id: "V71", cat: "Arithmetic", q: "If 1 dozen pencils cost Rs 60, the cost of 5 pencils will be:", a: "25", w: ["20", "30", "5"], r: 3, x: "60/12 = 5 each; 5 x 5 = 25." },
+            { id: "V72", cat: "Speed & Distance", q: "A train covers 120 km in one hour. How much distance will it cover in 12 minutes?", a: "24 km", w: ["12 km", "20 km", "30 km"], r: 0, x: "2 km/min x 12 = 24 km." },
+            { id: "V73", cat: "Letter Logic", q: "After rearranging 'RAPISS', it becomes the name of a:", a: "City", w: ["Country", "Ocean", "State"], r: 1, x: "RAPISS rearranges to PARIS, a city." },
+            { id: "V74", cat: "Analogy", q: "Dog is to bitch as horse is to:", a: "Mare", w: ["Stallion", "Foal", "Colt"], r: 2, x: "The female horse is a mare." },
+            { id: "V75", cat: "Calendar", q: "If Monday is the 4th day of a month, the 18th day will be:", a: "Monday", w: ["Tuesday", "Sunday", "Wednesday"], r: 3, x: "4th, 11th and 18th are Mondays." },
+            { id: "V76", cat: "Verbal Reasoning", q: "Why do people read newspapers?", a: "To get knowledge", w: ["To sleep", "To exercise", "To travel"], r: 0, x: "Newspapers are read for knowledge/current affairs." },
+            { id: "V77", cat: "Verbal Reasoning", q: "Why do people use cars?", a: "To travel", w: ["To swim", "To fly", "To dig"], r: 1, x: "Cars are used for travel." },
+            { id: "V78", cat: "Calendar", q: "If the 2nd day of a month is Friday, then the 14th day will be:", a: "Wednesday", w: ["Thursday", "Tuesday", "Friday"], r: 2, x: "2nd and 9th are Fridays; the 14th is Wednesday." },
+            { id: "V79", cat: "Letter Logic", q: "The last letter of 'UTYEAB' after arranging it alphabetically will be:", a: "Y", w: ["U", "T", "B"], r: 3, x: "Sorted: A B E T U Y; last is Y." },
+            { id: "V80", cat: "Profit & Loss", q: "A person purchased a book for Rs 500 and sold it for Rs 700. The profit percentage is:", a: "40%", w: ["20%", "30%", "50%"], r: 0, x: "Profit 200 on 500 = 40%." },
+            { id: "V81", cat: "Arithmetic", q: "One tenth of 90 = ?", a: "9", w: ["10", "0.9", "19"], r: 1, x: "90 / 10 = 9." },
+            { id: "V82", cat: "Arithmetic", q: "One tenth of 120 = ?", a: "12", w: ["10", "1.2", "21"], r: 2, x: "120 / 10 = 12." },
+            { id: "V83", cat: "Calendar", q: "If yesterday was Monday, then the day after tomorrow will be:", a: "Thursday", w: ["Wednesday", "Tuesday", "Friday"], r: 3, x: "Today is Tuesday; day after tomorrow is Thursday." },
+            { id: "V84", cat: "Ratio & Age", q: "Amjad and Ahmad kept 24 balls together. Amjad kept 3 times more than Ahmad. How many balls did Ahmad keep?", a: "6", w: ["8", "12", "18"], r: 0, x: "Ahmad x + 3x = 24, so x = 6." }
+        ];
+
+        function rotatedOptions(correct, wrong, rot) {
+            const arr = [correct, wrong[0], wrong[1], wrong[2]];
+            const n = ((rot % 4) + 4) % 4;
+            const out = [0, 1, 2, 3].map(i => arr[(i + n) % 4]);
+            return { options: { A: out[0], B: out[1], C: out[2], D: out[3] }, correctAnswer: "ABCD"[out.indexOf(correct)] };
+        }
+
+        const VERBAL_BANK = VERBAL_RAW.map(e => {
+            const o = rotatedOptions(e.a, e.w, e.r);
+            return { id: e.id, category: e.cat, question: e.q, options: o.options, correctAnswer: o.correctAnswer, explanation: e.x };
+        });
+
+        // Non-Verbal bank transcribed from the ISSB non-verbal scan. Entries are filled
+        // in NONVERBAL_RAW below; panels use the figure grammar rendered by renderPanelSVG.
+        const NONVERBAL_RAW = [
+            { id: "NV2", r: 2, kind: "analogy", a: "ci.o@top, tri.f@center, ci.o@bl, ci.o@br", b: "oval.f@center, tridown.w@in0", c: "trap.o@center, sq.f@tl, sq.f@tr, sq.f@bottom", opts: ["sq.o@center, rect.f@top-in0, trapinv.o@center-in0", "sq.o@center, trapinv.f@center-in0", "sq.o@center, trap.f@center-in0", "trap.o@center, sq.f@center-in0"], ans: "B" },
+            { id: "NV3", r: 3, kind: "analogy", a: "tri.o@tl, cross.o@tr, sq.o@bl, ci.o@br", b: "sq.o@left, cross.o@in0, ci.o@right, tri.o@in2", c: "ci.h@tl, cross.o@tr, tridown.b.o@bl, sq.o@br", opts: ["tridown.o@left, cross.h@in0, sq.o@right, ci.f@in2", "tridown.o@left, cross.f@in0, sq.o@right, ci.h@in2", "tridown.o@left, ci.o@in0, sq.o@right, cross.h@in2", "tridown.o@left, cross.o@in0, sq.o@right, ci.h@in2"], ans: "D" },
+            { id: "NV4", r: 0, kind: "analogy", a: "arrsRRLR.o@center", b: "arrsLRLL.o@center", c: "arrsRRRR.o@center", opts: ["arrsRLLR.o@center", "arrsLRRR.o@center", "arrsLRLL.o@center", "arrsLRRL.o@center"], ans: "D" },
+            { id: "NV5", r: 1, kind: "analogy", a: "dot.f@tl, dot.f@tr, dot.f@bl", b: "tridown.o@center", c: "dot.f@tr, dot.f@bl, dot.f@br", opts: ["tri.f@center", "tri.o@center", "tridown.o@center", "triLeft.o@center"], ans: "B" },
+            { id: "NV6", r: 2, kind: "analogy", a: "cycCCWCCWCW.o@center", b: "cycCWCCWCCW.o@center", c: "cycCCWCWCCW.o@center", opts: ["cycCWCCWCW.o@center", "cycCCWCWCW.o@center", "cycCWCWCW.o@center", "cycCWCWCCW.o@center"], ans: "C" },
+            { id: "NV7", r: 3, kind: "analogy", a: "rect.h@tl, rect.h@tr, rect.o@left, rect.o@right, rect.o@bl, rect.f@br", b: "stripesfooohh.o@center", c: "rect.f@tl, rect.o@tr, rect.o@left, rect.o@right, rect.h@bl, rect.o@br", opts: ["stripeshooofo.o@center", "stripesooooof.o@center", "stripesfoooho.o@center", "stripesooohof.o@center"], ans: "B" },
+            { id: "NV8", r: 0, kind: "matrix", grid: ["tri.o@center", "tri.o@center, line.o@center-in0, ci.o@tr", "line.o@center, ci.o@tr", "sq.o@center, diagSlash.o@in0", "sq.o@center, diagSlash.o@in0, cross.o@in0", "cross.o@center", "sq.o@center, arc.o@bottom-in0", "sq.o@center, diagSlash.o@in0, diagBack.o@in0, arc.o@bottom-in0", "?"], opts: ["diagSlash.o@center, line.o@right", "cross.o@center", "diagSlash.o@center, diagBack.o@center, arc.o@bottom", "diagSlash.o@center, diagBack.o@center"], ans: "D" },
+            { id: "NV9", r: 1, kind: "matrix", grid: ["cross.o@center", "cross.o@center, diagSlash.o@center, diagBack.o@center", "cross.o@center, ci.o@tl, ci.o@tr, ci.o@bl, ci.o@br", "diamond.o@center", "diamond.o@center, diagSlash.o@center, diagBack.o@center", "diamond.o@center, ci.o@tl, ci.o@tr, ci.o@bl, ci.o@br", "oval.o@center, capsH.o@center", "oval.o@center, capsH.o@center, diagSlash.o@center, diagBack.o@center", "?"], opts: ["oval.o@center, capsH.o@center, ci.o@top-in0, ci.o@bottom-in0", "oval.o@center, capsH.o@center, ci.o@tl, ci.o@tr, ci.o@bl, ci.o@br", "oval.o@center, capsH.o@center, ci.o@top-in0, ci.o@bottom-in0, ci.o@left-in1, ci.o@right-in1", "oval.o@center, capsH.o@center, ci.o@left-in1, ci.o@right-in1"], ans: "B" },
+            { id: "NV10", r: 2, kind: "matrix", grid: ["ci.f@center, line.o@top-in0", "ci.f@center, line.o@left-in0, line.o@right-in0", "ci.f@center, line.o@top-in0, line.o@left-in0, line.o@right-in0", "ci.f@center, line.o@top-in0, line.o@bottom-in0", "ci.f@center, line.o@right-in0, line.o@bottom-in0", "ci.f@center, line.o@top-in0, line.o@right-in0", "ci.f@center, line.o@top-in0", "ci.f@center, line.o@right-in0", "?"], opts: ["ci.f@center, line.o@top-in0, line.o@right-in0", "ci.f@center, line.o@top-in0, line.o@left-in0", "ci.f@center, line.o@left-in0, line.o@right-in0", "ci.f@center, line.o@left-in0, line.o@right-in0, line.o@bottom-in0"], ans: "A" },
+            { id: "NV11", r: 3, kind: "matrix", grid: ["ci.o@center, line.o@in0, n1.o@top-in0, n2.o@bottom-in0", "hexagon.o@center, line.o@in0, n1.o@top-in0, n2.o@bottom-in0", "parallelogram.o@center, line.o@in0, n1.o@top-in0, n2.o@bottom-in0", "bowl.o@center, n2.o@in0", "trap.o@center, n2.o@in0", "parallelogram.o@center, n2.o@in0", "bowl.o@top, n1.o@in0, bowl.o@bottom, n2.o@in2", "trap.o@top, n1.o@in0, trap.o@bottom, n2.o@in2", "?"], opts: ["parallelogram.o@center, line.o@in0, n1.o@top-in0, n2.o@bottom-in0", "paralBack.o@center, line.o@in0, n1.o@top-in0, n2.o@bottom-in0", "paralBack.o@top, n1.o@in0, parallelogram.o@bottom, n2.o@in2", "hexagon.o@center, line.o@in0, n1.o@top-in0, n2.o@bottom-in0"], ans: "C" },
+            { id: "NV12", r: 0, kind: "matrix", grid: ["ci.o@center, arc.o@top-in0, arc.o@bl-in0, arc.o@br-in0", "ci.o@center, line.o@center-in0, arc.o@tr-in0, arc.o@br-in0", "ci.o@center, dot.f@center-in0, arc.o@br-in0", "line.o@center, dot.f@left-in0, dot.f@center-in0, dot.f@right-in0, arc.o@tr-in0", "ci.o@center, arc.o@left-in0, arc.o@right-in0", "dot.f@center, arc.o@tr-in0", "arc.o@center, dot.f@br-in0", "ci.o@center, dot.f@center-in0, arc.o@tr-in0", "?"], opts: ["dot.f@center, arc.o@tr-in0", "dot.f@center, arc.o@tl-in0, arc.o@tr-in0", "dot.f@center", "ci.o@center, dot.f@center-in0"], ans: "C" },
+            { id: "NV13", r: 1, kind: "matrix", grid: ["diagBackHalf.o@center", "line.o@left, wedgeR.o@center", "line.o@left, wedgeR.o@center, line.o@in1", "wedgeUR.o@center", "diagBackHalf.o@center", "wedgeDL.o@center, diagBackHalf.o@in0", "diagSlash.o@center", "wedgeUp.o@center", "?"], opts: ["diagSlash.o@center, halfWedgeBR.o@right", "wedgeL.o@center, line.o@right", "wedgeDown.o@center", "diagSlash.o@center, diagBackHalf.o@tl, line.o@left"], ans: "B" },
+            { id: "NV14", r: 2, kind: "matrix", grid: ["leaf.o@center, line.o@in0", "leaf.o@center, line.o@in0", "line.o@center", "leaf.o@top, leaf.o@bottom", "leaf.o@tr, leaf.o@bl, leaf.o@br", "leaf.o@tl, leaf.o@tr, leaf.o@bl, leaf.o@br", "scurve.o@center", "scurve.o@center", "?"], opts: ["scurve.o@center", "scurve.o@center, dot.f@center", "scurve.o@center, line.o@in0", "leaf.o@center, line.o@in0"], ans: "A" },
+            { id: "NV15", r: 3, kind: "matrix", grid: ["star6.f@left, ci.o@right", "star6.f@left, ciRow2.o@right", "star6.f@left, ciRow3.o@right", "ci.b.o@left, ci.s.o@right", "ci.b.o@left, ciRow2.o@right", "ci.b.o@left, ciRow3.o@right", "sq.b.o@left, sq.s.o@right", "sq.b.o@left, sqRow2.o@right", "?"], opts: ["sq.b.o@left, sqRow3.o@right", "ci.b.o@left, ciRow3.o@center, sq.s.o@right", "star6.f@left, sq.s.o@right", "ciRow2.o@left, sq.s.o@br"], ans: "A" },
+            { id: "NV16", r: 0, kind: "matrix", grid: ["barV.o@center, diagSlash.o@center", "diagSlash.o@center, diagBack.o@center", "barV.o@center, diagBack.o@center", "loopV.o@top, loopH.o@bl, loopH.o@br", "loopH.o@tl, loopH.o@tr, loopV.o@bottom", "loopV.o@top, loopV.o@bottom", "arrN.o@center, arrW.o@center, arrNE.o@center", "arrN.o@center, arrE.o@center, arrSW.o@center", "?"], opts: ["arrN.o@center, arrW.o@center, arrE.o@center", "arrS.o@center, arrW.o@center, arrSE.o@center", "arrWE.o@center, arrNESW.o@center", "arrN.o@center, arrE.o@center, arrNW.o@center"], ans: "C" },
+            { id: "NV17", r: 1, kind: "matrix", grid: ["ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0", "ci.o@center, line.o@top-in0, line.o@bl-in0, line.o@br-in0", "ci.o@center, line.o@left-in0, line.o@right-in0", "ci.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bottom-in0", "ci.o@center, line.o@top-in0, line.o@bottom-in0", "ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0", "ci.o@center, line.o@tr-in0, line.o@bl-in0", "ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0", "?"], opts: ["ci.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bottom-in0", "ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0", "ci.o@center, line.o@top-in0, line.o@bottom-in0", "ci.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bl-in0, line.o@br-in0"], ans: "A" },
+            { id: "NV18", r: 2, kind: "analogy", a: "rect.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0, cross.o@center-in0", b: "ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0, cross.o@tl-in0, cross.o@tr-in0, cross.o@bl-in0, cross.o@br-in0", c: "rect.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bl-in0, line.o@br-in0, cross.o@center-in0", opts: ["ci.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bl-in0, line.o@br-in0", "ci.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bl-in0, line.o@br-in0, asterisk.o@top-in0, asterisk.o@right-in0, asterisk.o@bottom-in0, asterisk.o@left-in0", "ci.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bl-in0, line.o@br-in0, cross.o@top-in0, cross.o@right-in0, cross.o@bottom-in0, asterisk.o@left-in0", "ci.o@center, line.o@tl-in0, line.o@tr-in0, line.o@bl-in0, line.o@br-in0, cross.o@top-in0, cross.o@right-in0, cross.o@bottom-in0, cross.o@left-in0"], ans: "D" },
+            { id: "NV19", r: 3, kind: "analogy", a: "ci.o@center, line.o@right-in0, line.o@bottom-in0", b: "ci.o@center, line.o@left-in0, line.o@bottom-in0", c: "ci.o@center, line.o@top-in0, line.o@left-in0", opts: ["ci.o@center, line.o@top-in0, line.o@right-in0, wedgeR.h@tr-in0", "ci.h@center, line.o@top-in0, line.o@right-in0, wedgeR.w@tr-in0", "ci.o@center, line.o@tl-in0, line.o@right-in0", "ci.o@center, line.o@top-in0, line.o@right-in0"], ans: "D" },
+            { id: "NV20", r: 0, kind: "analogy", a: "rtri.o@center, ci.o@tl", b: "rtri.o@center, ci.o@br", c: "tridown.o@center, ci.o@bottom", opts: ["tridown.o@center, ci.o@top-in0", "tridown.o@center, ci.h@top-in0", "tridown.o@center, ci.o@top", "tridown.o@center, ci.h@top"], ans: "C" },
+            { id: "NV21", r: 1, kind: "analogy", a: "rect.o@center, sq.o@top, sq.o@bottom", b: "rect.o@center, sq.h@top, sq.h@bottom", c: "rect.o@center, rect.h@top, rect.h@bottom", opts: ["rect.o@center, rect.o@center, line.o@center-in1", "rect.o@center, rect.o@top, rect.o@bottom", "rect.o@center, rect.o@top, rect.o@bottom, rect.h@left, rect.h@right", "rect.o@center, rect.o@top, rect.o@bottom, rect.h@center"], ans: "B" },
+            { id: "NV22", r: 2, kind: "analogy", a: "rect.h@tl, rect.o@top, rect.o@tr, rect.h@right, rect.h@left, rect.o@bl, rect.o@bottom, rect.o@br", b: "rect.o@tl, rect.h@left, rect.h@bl, rect.o@bottom, rect.o@top, rect.o@tr, rect.h@right, rect.o@br", c: "rect.o@tl, rect.h@top, rect.h@tr, rect.o@right, rect.o@left, rect.o@bl, rect.h@bottom, rect.o@br", opts: ["rect.o@tl, rect.o@left, rect.o@bl, rect.h@bottom, rect.h@top, rect.o@tr, rect.o@right, rect.h@br", "rect.o@tl, rect.h@left, rect.o@bl, rect.o@bottom, rect.o@top, rect.h@tr, rect.h@right, rect.o@br", "rect.o@tl, rect.o@top, rect.o@tr, rect.h@right, rect.h@left, rect.o@bl, rect.o@bottom, rect.h@br", "rect.h@tl, rect.o@top, rect.o@tr, rect.h@right, rect.h@left, rect.o@bl, rect.o@bottom, rect.o@br"], ans: "A" },
+            { id: "NV23", r: 3, kind: "analogy", a: "stair.o@center, dot.f@tl, ci.o@bl", b: "stair.o@center, ci.o@tr, dot.f@br", c: "stair.o@left, dot.f@bottom-in0, corner.o@right, ci.o@tr-in2", opts: ["corner.o@left, ci.o@bl-in0, stair.o@right, ci.o@tr-in2", "corner.o@left, dot.f@top-in0, stair.o@right, ci.o@tl-in2", "corner.o@left, ci.o@bl-in0, stair.o@right, dot.f@tl-in2", "corner.o@left, dot.f@top-in0, stair.o@right, ci.o@right-in2"], ans: "C" },
+            { id: "NV24", r: 0, kind: "analogy", a: "ci.o@center, ci.o@left-in0, dot.f@in1, ci.s.o@bottom-in0, line.s.o@in3, ci.s.o@right-in0, line.s.o@in5, arc.o@tr-in0, arc.o@br-in0", b: "ci.o@center, ci.s.o@left-in0, dot.f@in1, ci.s.o@top-in0, dot.f@in3, ci.o@right-in0, dot.f@in5, arc.o@tl-in0, arc.o@bl-in0", c: "ci.o@center, ci.s.o@top-in0, dot.f@in1, ci.s.o@center-in0, dot.f@in3, ci.o@right-in0, dot.f@in5, arc.o@left-in0", opts: ["ci.o@center, ci.o@left-in0, dot.f@in1, ci.s.o@center-in0, line.s.o@in3, ci.s.o@bottom-in0, dot.f@in5, arc.o@br-in0", "ci.o@center, ci.s.o@center-in0, line.s.o@in1, ci.s.o@bottom-in0, dot.f@in3, ci.o@right-in0, line.s.o@in5, arc.o@br-in0", "ci.o@center, ci.o@left-in0, dot.f@in1, ci.s.o@center-in0, line.s.o@in3, ci.s.o@bottom-in0, line.s.o@in5, arc.o@br-in0", "ci.o@center, ci.s.o@center-in0, dot.f@in1, ci.s.o@bottom-in0, line.s.o@in3, ci.o@right-in0, arc.o@br-in0"], ans: "C" },
+            { id: "NV25", r: 1, kind: "analogy", a: "fan.o@center, rect.h@left-in0, ci.f@top-in0, rect.h@right-in0, rect.h@bottom-in0", b: "fan.o@center, rect.h@top-in0, ci.w@in1, rect.h@center-in0, rect.h@bl-in0", c: "fan.o@center, rect.h@left-in0, rect.h@top-in0, ci.o@tl-in0, x.o@tr-in0", opts: ["fan.o@center, x.o@tl-in0, rect.h@top-in0, ci.o@top-in0, ci.o@right-in0, rect.h@right-in0, rect.h@bottom-in0", "fan.o@center, rect.h@top-in0, rect.h@left-in0, ci.o@tr-in0, rect.h@right-in0, x.o@br-in0", "fan.o@center, rect.h@top-in0, ci.o@top-in0, ci.o@right-in0, rect.h@right-in0, x.o@br-in0", "fan.o@center, rect.h@left-in0, ci.o@top-in0, ci.o@right-in0, rect.h@right-in0, x.o@br-in0"], ans: "B" },
+            { id: "NV26", r: 2, kind: "analogy", a: "diamond.o@top, oval.o@center-in0, oval.o@bottom", b: "diamond.o@top, oval.o@bottom, oval.o@in1", c: "rect.o@top, tri.o@center-in0, diamond.o@bottom", opts: ["rect.o@top, tri.o@center-in0, diamond.o@bottom", "rect.o@top, diamond.o@bottom, tri.o@center-in1", "rect.o@top, diamond.b.o@bottom, tri.o@center-in1", "sq.o@top, diamond.b.o@bottom, tri.o@center-in1"], ans: "D" },
+            { id: "NV27", r: 3, kind: "analogy", a: "ci.o@center, ci.s.f@tr-in0, ci.s.f@center-in0, ci.s.f@br-in0, ci.s.o@top-in0, ci.s.o@tl-in0, ci.s.o@left-in0, ci.s.o@bottom-in0", b: "oval.o@center, ci.s.f@top-in0, ci.s.f@bl-in0, ci.s.f@br-in0, ci.s.f@bottom-in0, ci.s.o@tl-in0, ci.s.o@tr-in0, ci.s.o@center-in0", c: "oval.o@center, ci.s.f@tl-in0, ci.s.f@center-in0, ci.s.f@left-in0, ci.s.f@bottom-in0, ci.s.o@top-in0, ci.s.o@tr-in0, ci.s.o@br-in0", opts: ["ci.o@center, ci.s.f@top-in0, ci.s.f@tr-in0, ci.s.f@br-in0, ci.s.f@bottom-in0, ci.s.o@tl-in0, ci.s.o@left-in0, ci.s.o@center-in0, ci.s.o@right-in0", "ci.o@center, ci.s.f@top-in0, ci.s.f@tr-in0, ci.s.f@br-in0, ci.s.o@tl-in0, ci.s.o@left-in0, ci.s.o@center-in0, ci.s.o@bottom-in0", "ci.o@center, ci.s.f@center-in0, ci.s.f@left-in0, ci.s.f@br-in0, ci.s.f@bottom-in0, ci.s.o@top-in0, ci.s.o@tl-in0, ci.s.o@tr-in0", "ci.o@center, ci.s.f@top-in0, ci.s.f@tl-in0, ci.s.f@tr-in0, ci.s.f@br-in0, ci.s.o@left-in0, ci.s.o@center-in0, ci.s.o@bottom-in0"], ans: "B" },
+            { id: "NV28", r: 0, kind: "analogy", a: "sq.o@left, ci.s.o@tl-in0, ci.s.f@tr-in0, ci.s.o@center-in0, ci.s.f@left-in0, ci.s.o@right-in0, ci.s.o@bottom-in0, ci.s.f@br-in0, sq.o@right, ci.s.o@tl-in8, ci.s.o@tr-in8, ci.s.o@center-in8, ci.s.o@right-in8, ci.s.f@bl-in8, ci.s.f@bottom-in8, ci.s.o@br-in8", b: "sq.o@center, ci.s.f@top-in0, ci.s.f@tl-in0, ci.s.f@tr-in0, ci.s.o@center-in0, ci.s.f@bl-in0, ci.s.f@br-in0", c: "sq.o@left, ci.s.o@tl-in0, ci.s.f@tr-in0, ci.s.o@center-in0, ci.s.f@left-in0, ci.s.o@right-in0, ci.s.o@bl-in0, ci.s.o@br-in0, sq.o@right, ci.s.f@tl-in8, ci.s.o@tr-in8, ci.s.o@bl-in8, ci.s.f@br-in8", opts: ["sq.o@center, ci.s.o@top-in0, ci.s.o@tr-in0, ci.s.o@tl-in0, ci.s.o@right-in0, ci.s.o@center-in0, ci.s.o@left-in0, ci.s.o@bottom-in0", "sq.o@center, ci.s.f@top-in0, ci.s.f@tl-in0, ci.s.o@tr-in0, ci.s.o@center-in0, ci.s.f@right-in0, ci.s.f@bl-in0, ci.s.o@br-in0", "sq.o@center, ci.s.f@tl-in0, ci.s.o@tr-in0, ci.s.o@center-in0, ci.s.o@left-in0, ci.s.o@br-in0, ci.s.o@bottom-in0", "sq.o@center, ci.s.f@tl-in0, ci.s.f@tr-in0, ci.s.o@left-in0, ci.s.f@center-in0, ci.s.f@right-in0, ci.s.o@br-in0"], ans: "B" },
+            { id: "NV29", r: 1, kind: "analogy", a: "tri.o@center, ci.s.f@top-in0, ci.s.o@bl-in0, ci.s.f@br-in0", b: "sq.o@center, ci.s.f@tl-in0, ci.s.f@tr-in0, ci.s.o@bl-in0, ci.s.o@br-in0", c: "diamond.o@center, ci.s.f@top-in0, ci.s.f@right-in0, ci.s.o@left-in0, ci.s.o@bottom-in0", opts: ["pent.o@center, ci.s.f@tl-in0, ci.s.f@tr-in0, ci.s.f@left-in0, ci.s.o@right-in0, ci.s.o@bottom-in0", "pent.o@center, ci.s.f@tl-in0, ci.s.f@tr-in0, ci.s.o@left-in0, ci.s.o@right-in0, ci.s.f@bottom-in0", "pent.o@center, ci.s.f@tl-in0, ci.s.f@tr-in0, ci.s.o@left-in0, ci.s.o@right-in0, ci.s.o@bottom-in0", "pent.o@center, ci.s.h@tl-in0, ci.s.h@tr-in0, ci.s.h@left-in0, ci.s.o@right-in0, ci.s.h@bottom-in0"], ans: "C" },
+            { id: "NV30", r: 2, kind: "analogy", a: "pent.o@top, pent.o@bottom", b: "merge.o@center", c: "diamond.o@top, diamond.o@bottom", opts: ["mergewide.o@center", "diamond.o@top, diamond.o@bottom", "mergeinv.o@center", "merge.o@center"], ans: "C" },
+            { id: "NV31", r: 3, kind: "analogy", a: "arc.o@top, arc.o@center, line.o@tl, ci.s.o@center", b: "arc.o@bottom, arc.o@center, line.o@tr, ci.s.f@center", c: "arc.o@right, ci.o@center, line.o@left, ci.s.f@center-in1", opts: ["arc.o@left, ci.o@center, line.o@top, ci.s.o@center-in1", "arc.o@left, ci.o@center, line.o@right, ci.s.o@center-in1", "arc.o@right, ci.o@center, line.o@top, ci.s.o@center-in1", "arc.o@left, ci.o@center, line.o@right, ci.s.f@center-in1"], ans: "A" },
+            { id: "NV32", r: 0, kind: "analogy", a: "bell.o@left, star.o@tl, semi.o@tr, asterisk.o@right, dot.f@in3", b: "semi.o@left, bell.o@tl, asterisk.o@tr, dot.f@in2, star.o@right", c: "drop.o@left, moon.o@tl, star4.o@tr, leaf.o@right", opts: ["leaf.o@left, moon.o@tl, drop.o@tr, star4.o@right", "star4.o@left, drop.o@tl, leaf.o@tr, moon.o@right", "moon.o@left, drop.o@tl, leaf.o@tr, star4.o@right", "star4.o@left, leaf.o@tl, drop.o@tr, moon.o@right"], ans: "B" },
+            { id: "NV33", r: 1, kind: "analogy", a: "oval.o@top, rect.o@center-in0, tridown.o@bottom, oval.o@right", b: "rect.o@top, oval.o@center-in0, tridown.s.o@bottom, oval.o@bottom", c: "rect.o@top, rect.s.o@center, tridown.s.o@center, oval.o@bl", opts: ["oval.o@top, oval.s.o@center, tridown.o@center, oval.o@bottom", "oval.o@top, oval.s.o@center, tridown.s.o@center, oval.o@right", "oval.o@top, oval.s.o@center, tridown.s.o@center, oval.o@left", "tridown.o@top, oval.s.o@center, oval.o@bottom"], ans: "A" },
+            { id: "NV43", r: 3, kind: "analogy", a: "pent.o@center, ci.f@tl-in0, ci.f@tr-in0, ci.f@center-in0, ci.f@bl-in0, ci.f@br-in0", b: "sq.o@center, ci.o@tl-in0, ci.o@tr-in0, ci.o@left-in0, ci.o@center-in0, ci.o@right-in0, ci.o@bottom-in0", c: "heptagon.o@center, ci.o@tl-in0, ci.o@left-in0, ci.o@br-in0", opts: ["hexagon.o@center, ci.f@tr-in0, ci.f@left-in0, ci.f@bottom-in0", "hexagon.o@center, ci.f@tl-in0, ci.f@tr-in0, ci.f@bl-in0, ci.f@bottom-in0", "pent.o@center, ci.f@top-in0, ci.f@left-in0, ci.f@right-in0, ci.f@bottom-in0", "hexagon.o@center, ci.o@tl-in0, ci.o@tr-in0, ci.o@bl-in0, ci.o@br-in0"], ans: "B" },
+            { id: "NV44", r: 0, kind: "analogy", a: "tri.o@center, H.o@top, cross.o@left, ci.o@right, sq.f@bl, sq.f@bottom, sq.f@br", b: "rect.f@center, tri.o@tl, tri.o@top, tri.o@tr, ci.o@left, cross.o@right, H.o@bottom", c: "ci.o@center, tri.o@top, hourglass.o@left, eight.o@right, oval.f@bl, oval.f@bottom, oval.f@br", opts: ["oval.f@center, tridown.o@top, hourglass.o@left, eight.o@right, ci.o@bl, ci.o@bottom, ci.o@br", "oval.f@center, tri.o@top, eight.o@left, hourglass.o@right, ci.o@bl, ci.o@bottom, ci.o@br", "oval.o@center, ci.o@tl, ci.o@top, ci.o@tr, eight.o@left, hourglass.o@right, tri.o@bottom", "oval.f@center, ci.o@tl, ci.o@top, ci.o@tr, eight.o@left, hourglass.o@right, tri.f@bottom"], ans: "D" },
+            { id: "NV45", r: 1, kind: "analogy", a: "rect.f@center, tri.o@tl, tri.o@top, tri.o@tr, ci.o@left, cross.o@right, H.o@bottom", b: "rect.f@center, H.o@top, cross.o@left, ci.o@right, tridown.o@bl, tridown.o@bottom, tridown.o@br", c: "oval.f@center, ci.o@tl, ci.o@top, ci.o@tr, eight.o@left, hourglass.o@right, tri.o@bottom", opts: ["oval.f@center, tri.o@top, hourglass.o@left, eight.o@right, ci.o@bl, ci.o@bottom, ci.o@br", "oval.o@center, tri.o@top, hourglass.o@left, eight.o@right, ci.o@bl, ci.o@bottom, ci.o@br", "oval.f@center, tridown.o@top, hourglass.o@left, eight.o@right, ci.o@bl, ci.o@bottom, ci.o@br", "oval.o@center, tridown.o@top, hourglass.o@left, eight.o@right, ci.o@bl, ci.o@bottom, ci.o@br"], ans: "C" },
+            { id: "NV46", r: 2, kind: "analogy", a: "cross.o@top, tri.o@tl, tri.o@tr, tri.o@bl, tri.o@br, rect.o@bottom, sq.o@in5", b: "rect.o@center, cross.o@in0, tri.o@tl-in0, tri.o@tr-in0, tri.o@bl-in0, tri.o@br-in0", c: "X.o@top, sq.o@top-in0, sq.o@left-in0, sq.o@right-in0, sq.o@bottom-in0, oval.o@bottom, ci.o@in5", opts: ["oval.o@center, X.o@in0, sq.o@left-in0, sq.o@right-in0", "oval.o@center, X.o@in0, sq.o@top-in0, sq.o@left-in0, sq.o@right-in0, sq.o@bottom-in0", "oval.o@center, X.o@in0, sq.o@left-in0, sq.o@right-in0, ci.o@top-in0, ci.o@bottom-in0", "oval.o@center, cross.o@in0, tri.o@tl-in0, tri.o@tr-in0, tri.o@bl-in0, tri.o@br-in0"], ans: "B" },
+            { id: "NV47", r: 3, kind: "analogy", a: "ci.o@top, cross.o@in0, ci.o@bottom, ci.o@in2", b: "sq.o@center, X.o@in0, ci.o@center-in0", c: "sq.o@top, X.o@in0, sq.o@bottom, sq.o@in2", opts: ["ci.o@center, cross.o@in0, sq.s.o@center-in0", "ci.o@center, cross.o@in0, sq.b.o@center-in0", "ci.o@center, cross.o@in0, sq.b.o@center-in0, sq.f@tl-in2, sq.f@br-in2", "ci.o@center, cross.o@in0, ci.s.o@center-in0, sq.s.o@center-in2"], ans: "A" },
+            { id: "NV48", r: 0, kind: "analogy", a: "sq.o@center, cross.o@tl-in0", b: "opencirc.o@center", c: "sq.o@center, ci.o@tr-in0", opts: ["ci.o@center, cross.f@in0", "cross.f@center", "ci.o@center", "cross.o@center"], ans: "D" },
+            { id: "NV49", r: 1, kind: "analogy", a: "tri.o@center, sq.h@center-in0", b: "rect.o@center, tridown.h@top", c: "semi.o@center, star.o@center-in0", opts: ["semi.h@top, star.o@bottom", "semidown.o@top, star.o@bottom", "semidown.h@top, star.o@bottom", "semidown.o@top, star.h@bottom"], ans: "C" },
+            { id: "NV50", r: 2, kind: "analogy", a: "sq.o@center", b: "sq.f@center", c: "tri.o@center", opts: ["tri.h@center", "tri.f@center", "tri.o@center", "sq.f@center"], ans: "B" },
+            { id: "NV51", r: 3, kind: "analogy", a: "ci.o@center", b: "ci.o@center, dot.f@center-in0", c: "sq.o@center", opts: ["sq.o@center", "sq.f@center, dot.f@center-in0", "sq.o@center, dot.f@center-in0", "sq.o@center, dot.o@center-in0"], ans: "C" },
+            { id: "NV52", r: 0, kind: "analogy", a: "rect.o@center, dot.f@tl", b: "rect.o@center, dot.f@br", c: "rect.o@center, dot.f@tr", opts: ["rect.o@center, dot.f@bl", "rect.o@center, dot.f@tl", "rect.o@center, dot.f@br", "rect.o@center, dot.f@tr"], ans: "A" },
+            { id: "NV53", r: 1, kind: "analogy", a: "ci.b.o@center", b: "ci.s.o@center", c: "sq.b.o@center", opts: ["sq.b.o@center", "sq.b.f@center", "ci.s.o@center", "sq.s.o@center"], ans: "D" },
+            { id: "NV54", r: 2, kind: "analogy", a: "tri.o@center, dot.f@top", b: "tri.o@center, dot.f@top, dot.f@bottom", c: "oval.o@center, dot.f@top", opts: ["oval.o@center, dot.f@top", "oval.o@center, dot.f@top, dot.f@bottom", "oval.f@center, dot.f@top, dot.f@bottom", "oval.o@center, dot.f@left, dot.f@right"], ans: "B" },
+            { id: "NV55", r: 3, kind: "matrix", grid: ["sq.o@center", "sq.o@center, line.o@in0", "sq.o@center, line.o@in0, cross.o@in0", "ci.o@center", "ci.o@center, line.o@in0", "ci.o@center, line.o@in0, cross.o@in0", "tri.o@center", "tri.o@center, line.o@in0", "?"], opts: ["tri.o@center, line.o@in0", "tri.o@center, cross.o@in0", "tri.o@center, line.o@in0, cross.o@in0", "sq.o@center, line.o@in0, cross.o@in0"], ans: "C" },
+            { id: "NV56", r: 0, kind: "analogy", a: "diamond.o@center", b: "diamond.h@center", c: "hexagon.o@center", opts: ["hexagon.h@center", "hexagon.o@center", "hexagon.f@center", "diamond.h@center"], ans: "A" },
+            { id: "NV57", r: 1, kind: "analogy", a: "arrsRRRR.o@center", b: "arrsLLLL.o@center", c: "arrsRLRL.o@center", opts: ["arrsRLRL.o@center", "arrsRRLL.o@center", "arrsLLRR.o@center", "arrsLRLR.o@center"], ans: "D" },
+            { id: "NV58", r: 2, kind: "analogy", a: "sq.o@center, ci.o@in0", b: "sq.o@center, tri.o@in0", c: "ci.o@center, ci.o@in0", opts: ["ci.o@center, ci.o@in0", "ci.o@center, tri.o@in0", "sq.o@center, tri.o@in0", "ci.o@center, sq.o@in0"], ans: "B" },
+            { id: "NV59", r: 3, kind: "analogy", a: "oval.o@center, tri.o@left", b: "oval.o@center, tri.o@right", c: "oval.o@center, tri.o@top", opts: ["oval.o@center, tri.o@top", "oval.o@center, tri.o@left", "oval.o@center, tri.o@bottom", "oval.o@center, tri.o@right"], ans: "C" },
+            { id: "NV60", r: 0, kind: "series", seq: ["dot.f@center", "dot.f@center, dot.f@top", "dot.f@center, dot.f@top, dot.f@bottom", "dot.f@center, dot.f@top, dot.f@bottom, dot.f@left"], opts: ["dot.f@center, dot.f@top, dot.f@bottom, dot.f@left, dot.f@right", "dot.f@center, dot.f@top, dot.f@bottom, dot.f@left", "dot.f@center, dot.f@top, dot.f@left, dot.f@right", "dot.f@top, dot.f@bottom, dot.f@left, dot.f@right"], ans: "A" },
+            { id: "NV61", r: 1, kind: "matrix", grid: ["sq.o@center", "sq.h@center", "sq.f@center", "ci.o@center", "ci.h@center", "ci.f@center", "tri.o@center", "tri.h@center", "?"], opts: ["tri.o@center", "tri.f@center", "tri.h@center", "sq.f@center"], ans: "B" },
+            { id: "NV62", r: 2, kind: "analogy", a: "sq.o@center, dot.f@tl", b: "sq.o@center, dot.f@tl, dot.f@tr", c: "sq.o@center, dot.f@tl, dot.f@tr, dot.f@bl", opts: ["sq.o@center, dot.f@tl, dot.f@tr, dot.f@bl", "sq.f@center, dot.f@tl, dot.f@tr, dot.f@bl, dot.f@br", "sq.o@center, dot.f@tl, dot.f@tr, dot.f@br", "sq.o@center, dot.f@tl, dot.f@tr, dot.f@bl, dot.f@br"], ans: "D" },
+            { id: "NV63", r: 3, kind: "analogy", a: "tri.o@center", b: "tridown.o@center", c: "semi.o@center", opts: ["semidown.o@center", "semi.o@center", "semidown.f@center", "tridown.o@center"], ans: "A" },
+            { id: "NV64", r: 0, kind: "matrix", grid: ["ci.o@center", "ci.o@center, dot.f@in0", "ci.o@center, cross.o@in0", "sq.o@center", "sq.o@center, dot.f@in0", "sq.o@center, cross.o@in0", "oval.o@center", "oval.o@center, dot.f@in0", "?"], opts: ["oval.o@center, dot.f@in0", "oval.o@center", "oval.o@center, cross.o@in0", "sq.o@center, cross.o@in0"], ans: "C" },
+            { id: "NV65", r: 1, kind: "analogy", a: "ci.o@center, line.o@top-in0", b: "ci.o@center, line.o@top-in0, line.o@bottom-in0", c: "ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0", opts: ["ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0", "ci.o@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0", "ci.o@center, line.o@top-in0, line.o@right-in0", "ci.f@center, line.o@top-in0, line.o@bottom-in0, line.o@left-in0, line.o@right-in0"], ans: "B" },
+            { id: "NV66", r: 2, kind: "analogy", a: "star.o@center", b: "star.o@left, star.o@right", c: "star4.o@center", opts: ["star4.o@center", "star.o@left, star.o@right", "star4.o@top, star4.o@bottom", "star4.o@left, star4.o@right"], ans: "D" },
+            { id: "NV67", r: 3, kind: "matrix", grid: ["ci.b.o@center", "ci.m.o@center", "ci.s.o@center", "sq.b.o@center", "sq.m.o@center", "sq.s.o@center", "tri.b.o@center", "tri.m.o@center", "?"], opts: ["tri.s.o@center", "tri.b.o@center", "tri.m.o@center", "ci.s.o@center"], ans: "A" },
+            { id: "NV68", r: 0, kind: "analogy", a: "rect.o@center, sq.o@in0", b: "rect.o@center, sq.f@in0", c: "rect.o@center, ci.o@in0", opts: ["rect.o@center, ci.o@in0", "rect.f@center, ci.f@in0", "rect.o@center, ci.f@in0", "rect.o@center, sq.f@in0"], ans: "C" },
+            { id: "NV69", r: 1, kind: "analogy", a: "ci.o@center", b: "ci.o@center, cross.o@in0", c: "sq.o@center", opts: ["sq.o@center", "sq.o@center, cross.o@in0", "sq.o@center, X.o@in0", "ci.o@center, cross.o@in0"], ans: "B" },
+            { id: "NV70", r: 2, kind: "analogy", a: "diagSlash.o@center", b: "diagBack.o@center", c: "diagSlashHalf.o@center", opts: ["diagSlashHalf.o@center", "diagSlash.o@center", "diagBack.o@center", "diagBackHalf.o@center"], ans: "D" },
+            { id: "NV71", r: 3, kind: "matrix", grid: ["ci.o@center, dot.f@tl", "ci.o@center, dot.f@tr", "ci.o@center, dot.f@br", "sq.o@center, dot.f@tl", "sq.o@center, dot.f@tr", "sq.o@center, dot.f@br", "tri.o@center, dot.f@tl", "tri.o@center, dot.f@tr", "?"], opts: ["tri.o@center, dot.f@tl", "tri.o@center, dot.f@tr", "tri.o@center, dot.f@br", "sq.o@center, dot.f@br"], ans: "C" },
+            { id: "NV72", r: 0, kind: "analogy", a: "oval.h@center", b: "oval.f@center", c: "diamond.h@center", opts: ["diamond.f@center", "diamond.h@center", "diamond.o@center", "oval.f@center"], ans: "A" },
+            { id: "NV73", r: 1, kind: "analogy", a: "ci.s.o@center", b: "ci.o@center, ci.s.o@in0", c: "sq.s.o@center", opts: ["sq.s.o@center", "sq.o@center, sq.s.o@in0", "sq.o@center", "sq.o@center, ci.s.o@in0"], ans: "B" },
+            { id: "NV74", r: 2, kind: "series", seq: ["ci.o@center", "ci.o@center, dot.f@top", "ci.o@center, dot.f@top, dot.f@right", "ci.o@center, dot.f@top, dot.f@right, dot.f@bottom"], opts: ["ci.o@center, dot.f@top, dot.f@right, dot.f@bottom, dot.f@left", "ci.o@center, dot.f@top, dot.f@right, dot.f@bottom", "ci.o@center, dot.f@top, dot.f@left", "ci.f@center, dot.f@top, dot.f@right, dot.f@bottom, dot.f@left"], ans: "A" }
+        ];
+
+        const NONVERBAL_BANK = NONVERBAL_RAW.map(e => {
+            const given = e.grid ? { kind: "matrix", grid: e.grid } : (e.seq ? { kind: "series", seq: e.seq } : { kind: "analogy", a: e.a, b: e.b, c: e.c });
+            const ai = "ABCD".indexOf(e.ans || "A");
+            const correct = e.opts[ai];
+            const wrong = e.opts.filter((_, i) => i !== ai);
+            const o = rotatedOptions(correct, wrong, e.r);
+            const letters = ["A", "B", "C", "D"];
+            const optFigs = {};
+            letters.forEach(L => { optFigs[L] = o.options[L]; });
+            return {
+                id: e.id, category: e.cat || "Non-Verbal Figures",
+                question: e.q || "Choose the figure that correctly completes the relationship.",
+                fig: given, optFigs,
+                options: { A: "Figure A", B: "Figure B", C: "Figure C", D: "Figure D" },
+                correctAnswer: o.correctAnswer,
+                explanation: e.x || "Compare the transformation from the first pair and apply it to the second."
+            };
+        });
+
+        // 50 Academic Questions provided in the specification
+        const ACADEMIC_BANK = [
+            // GK & Pak Studies (10)
+            { id: "GK1", category: "GK & Pak Studies", question: "The Wakhan Corridor is part of which country?", options: { A: "Pakistan", B: "Afghanistan", C: "Tajikistan", D: "China" }, correctAnswer: "B", explanation: "Wakhan Corridor belongs to Afghanistan." },
+            { id: "GK2", category: "GK & Pak Studies", question: "The Wakhan Corridor provides Afghanistan with a narrow connection toward which country?", options: { A: "Iran", B: "India", C: "China", D: "Uzbekistan" }, correctAnswer: "C", explanation: "Connects Afghanistan to China." },
+            { id: "GK3", category: "GK & Pak Studies", question: "The Tashkent Declaration of January 1966 was signed by which two countries?", options: { A: "Pakistan and Iran", B: "Pakistan and India", C: "India and China", D: "Afghanistan and Pakistan" }, correctAnswer: "B", explanation: "Signed between Pakistan and India." },
+            { id: "GK4", category: "GK & Pak Studies", question: "The Indus Waters Treaty was signed in which year?", options: { A: "1947", B: "1956", C: "1960", D: "1971" }, correctAnswer: "C", explanation: "Signed in 1960." },
+            { id: "GK5", category: "GK & Pak Studies", question: "The Kargil conflict between India and Pakistan took place in which year?", options: { A: "1965", B: "1971", C: "1988", D: "1999" }, correctAnswer: "D", explanation: "Took place in 1999." },
+            { id: "GK6", category: "GK & Pak Studies", question: "Who wrote the lyrics of Pakistan's national anthem?", options: { A: "Allama Muhammad Iqbal", B: "Hafeez Jalandhari", C: "Faiz Ahmed Faiz", D: "Ahmed Faraz" }, correctAnswer: "B", explanation: "Written by Hafeez Jalandhari." },
+            { id: "GK7", category: "GK & Pak Studies", question: "Who composed the musical tune of Pakistan's national anthem?", options: { A: "Ahmed Ghulam Ali Chagla", B: "Sohail Rana", C: "Khwaja Khurshid Anwar", D: "Nisar Bazmi" }, correctAnswer: "A", explanation: "Composed by Ahmed Ghulam Ali Chagla." },
+            { id: "GK8", category: "GK & Pak Studies", question: "What is the capital of Pakistan?", options: { A: "Karachi", B: "Lahore", C: "Islamabad", D: "Peshawar" }, correctAnswer: "C", explanation: "Islamabad is the federal capital." },
+            { id: "GK9", category: "GK & Pak Studies", question: "Which country lies to the west of Pakistan?", options: { A: "Iran", B: "Nepal", C: "Bhutan", D: "Bangladesh" }, correctAnswer: "A", explanation: "Iran lies to the west." },
+            { id: "GK10", category: "GK & Pak Studies", question: "Who is listed as Chief Minister of Sindh according to official records?", options: { A: "Syed Murad Ali Shah", B: "Bilawal Bhutto Zardari", C: "Kamran Tessori", D: "Asif Ali Zardari" }, correctAnswer: "A", explanation: "Syed Murad Ali Shah." },
+
+            // Islamiat (10)
+            { id: "IS1", category: "Islamiat", question: "What is the first month of the Islamic calendar?", options: { A: "Ramadan", B: "Muharram", C: "Safar", D: "Rajab" }, correctAnswer: "B", explanation: "Muharram is the first month." },
+            { id: "IS2", category: "Islamiat", question: "How many obligatory daily prayers are there in Islam?", options: { A: "Three", B: "Four", C: "Five", D: "Six" }, correctAnswer: "C", explanation: "There are 5 obligatory prayers." },
+            { id: "IS3", category: "Islamiat", question: "Which holy book was revealed to Prophet Muhammad (peace be upon him)?", options: { A: "Torah", B: "Zabur", C: "Injil", D: "The Quran" }, correctAnswer: "D", explanation: "The Holy Quran." },
+            { id: "IS4", category: "Islamiat", question: "Which prophet is known as Khatam-un-Nabiyyin (Seal of Prophets)?", options: { A: "Prophet Ibrahim (pbuh)", B: "Prophet Musa (pbuh)", C: "Prophet Muhammad (pbuh)", D: "Prophet Isa (pbuh)" }, correctAnswer: "C", explanation: "Prophet Muhammad (pbuh)." },
+            { id: "IS5", category: "Islamiat", question: "In which month do Muslims observe obligatory fasting?", options: { A: "Shawwal", B: "Ramadan", C: "Muharram", D: "Safar" }, correctAnswer: "B", explanation: "Ramadan." },
+            { id: "IS6", category: "Islamiat", question: "What is the direction Muslims face during Salah?", options: { A: "Masjid an-Nabawi", B: "Mount Sinai", C: "The Kaaba in Makkah", D: "The Dome of the Rock" }, correctAnswer: "C", explanation: "The Kaaba in Makkah." },
+            { id: "IS7", category: "Islamiat", question: "Which angel is associated with bringing revelation to prophets?", options: { A: "Jibreel", B: "Mikaeel", C: "Israfeel", D: "Izraeel" }, correctAnswer: "A", explanation: "Angel Jibreel (AS)." },
+            { id: "IS8", category: "Islamiat", question: "Which Islamic term refers to obligatory charity?", options: { A: "Sawm", B: "Zakat", C: "Hajj", D: "Salah" }, correctAnswer: "B", explanation: "Zakat." },
+            { id: "IS9", category: "Islamiat", question: "Which prophet associated with building the Kaaba with his son Ismail?", options: { A: "Prophet Nuh", B: "Prophet Yusuf", C: "Prophet Ibrahim", D: "Prophet Yunus" }, correctAnswer: "C", explanation: "Prophet Ibrahim (AS)." },
+            { id: "IS10", category: "Islamiat", question: "Which is the third month of the Islamic calendar?", options: { A: "Rabi al-Awwal", B: "Ramadan", C: "Dhul-Hijjah", D: "Safar" }, correctAnswer: "A", explanation: "Rabi al-Awwal." },
+
+            // English Grammar (10)
+            { id: "EN1", category: "English Grammar", question: "Identify the object in: 'Ali kicked the ball.'", options: { A: "Ali", B: "Kicked", C: "The ball", D: "The" }, correctAnswer: "C", explanation: "'The ball' is receiving the action." },
+            { id: "EN2", category: "English Grammar", question: "Identify the conjunction in: 'I wanted to go, but it was raining.'", options: { A: "Wanted", B: "But", C: "Raining", D: "Go" }, correctAnswer: "B", explanation: "'But' connects clauses." },
+            { id: "EN3", category: "English Grammar", question: "Choose the correct plural form of 'child'.", options: { A: "Childs", B: "Childes", C: "Children", D: "Childrens" }, correctAnswer: "C", explanation: "Irregular plural is 'Children'." },
+            { id: "EN4", category: "English Grammar", question: "Choose the correct verb: 'She ___ to school every day.'", options: { A: "Go", B: "Goes", C: "Going", D: "Gone" }, correctAnswer: "B", explanation: "Singular subject requires 'Goes'." },
+            { id: "EN5", category: "English Grammar", question: "Identify the adjective in: 'She wore a beautiful dress.'", options: { A: "She", B: "Wore", C: "Beautiful", D: "Dress" }, correctAnswer: "C", explanation: "'Beautiful' modifies dress." },
+            { id: "EN6", category: "English Grammar", question: "Choose the correct article: 'He is ___ honest man.'", options: { A: "A", B: "An", C: "The", D: "No article" }, correctAnswer: "B", explanation: "'Honest' starts with a vowel sound (an)." },
+            { id: "EN7", category: "English Grammar", question: "Identify the subject in: 'The students completed the assignment.'", options: { A: "The students", B: "Completed", C: "The assignment", D: "Assignment" }, correctAnswer: "A", explanation: "'The students' perform the action." },
+            { id: "EN8", category: "English Grammar", question: "Choose the correct past tense of 'write'.", options: { A: "Writed", B: "Written", C: "Wrote", D: "Writing" }, correctAnswer: "C", explanation: "Past tense is 'Wrote'." },
+            { id: "EN9", category: "English Grammar", question: "Identify the conjunction in: 'You can have tea or coffee.'", options: { A: "You", B: "Have", C: "Tea", D: "Or" }, correctAnswer: "D", explanation: "'Or' is the conjunction." },
+            { id: "EN10", category: "English Grammar", question: "Choose passive voice of 'The teacher praised Ahmed.'", options: { A: "Ahmed praised the teacher.", B: "Ahmed was praised by the teacher.", C: "The teacher was praised Ahmed.", D: "Ahmed is praising the teacher." }, correctAnswer: "B", explanation: "Correct passive structure." },
+
+            // Mathematics (10)
+            { id: "MA1", category: "Mathematics", question: "What is cos 0°?", options: { A: "0", B: "1", C: "-1", D: "Undefined" }, correctAnswer: "B", explanation: "cos(0°) = 1." },
+            { id: "MA2", category: "Mathematics", question: "What is sin 90°?", options: { A: "0", B: "1", C: "-1", D: "1/2" }, correctAnswer: "B", explanation: "sin(90°) = 1." },
+            { id: "MA3", category: "Mathematics", question: "What is 15% of 200?", options: { A: "15", B: "20", C: "30", D: "40" }, correctAnswer: "C", explanation: "0.15 * 200 = 30." },
+            { id: "MA4", category: "Mathematics", question: "Solve: 3x = 21.", options: { A: "6", B: "7", C: "8", D: "9" }, correctAnswer: "B", explanation: "x = 21 / 3 = 7." },
+            { id: "MA5", category: "Mathematics", question: "What is the square root of 144?", options: { A: "10", B: "11", C: "12", D: "14" }, correctAnswer: "C", explanation: "sqrt(144) = 12." },
+            { id: "MA6", category: "Mathematics", question: "Express 0.25 as a fraction in its simplest form.", options: { A: "1/2", B: "1/3", C: "1/4", D: "3/4" }, correctAnswer: "C", explanation: "25/100 = 1/4." },
+            { id: "MA7", category: "Mathematics", question: "What is the value of 2³ × 2²?", options: { A: "16", B: "24", C: "32", D: "64" }, correctAnswer: "C", explanation: "8 * 4 = 32 (or 2^5 = 32)." },
+            { id: "MA8", category: "Mathematics", question: "What is the sum of the interior angles of a triangle?", options: { A: "90°", B: "180°", C: "270°", D: "360°" }, correctAnswer: "B", explanation: "Sum of interior angles of a triangle is 180°." },
+            { id: "MA9", category: "Mathematics", question: "If a car travels 120 km in 2 hours, what is its speed?", options: { A: "40 km/h", B: "50 km/h", C: "60 km/h", D: "80 km/h" }, correctAnswer: "C", explanation: "Speed = 120 / 2 = 60 km/h." },
+            { id: "MA10", category: "Mathematics", question: "What is tan 45°?", options: { A: "0", B: "1", C: "√3", D: "Undefined" }, correctAnswer: "B", explanation: "tan(45°) = 1." },
+
+            // Physics (10)
+            { id: "PH1", category: "Physics", question: "Frequency is the reciprocal of which quantity?", options: { A: "Wavelength", B: "Time period", C: "Amplitude", D: "Wave speed" }, correctAnswer: "B", explanation: "f = 1/T." },
+            { id: "PH2", category: "Physics", question: "What is the SI unit of frequency?", options: { A: "Newton", B: "Joule", C: "Hertz", D: "Watt" }, correctAnswer: "C", explanation: "Frequency is measured in Hertz (Hz)." },
+            { id: "PH3", category: "Physics", question: "Which formula relates frequency f and time period T?", options: { A: "f = T", B: "f = 1/T", C: "f = T²", D: "f = T/2" }, correctAnswer: "B", explanation: "f = 1/T." },
+            { id: "PH4", category: "Physics", question: "What is the SI unit of force?", options: { A: "Joule", B: "Pascal", C: "Newton", D: "Watt" }, correctAnswer: "C", explanation: "Force unit is Newton (N)." },
+            { id: "PH5", category: "Physics", question: "Which instrument measures electric current?", options: { A: "Voltmeter", B: "Ammeter", C: "Thermometer", D: "Barometer" }, correctAnswer: "B", explanation: "Ammeter measures current." },
+            { id: "PH6", category: "Physics", question: "What is the approximate speed of light in a vacuum?", options: { A: "3 × 10⁶ m/s", B: "3 × 10⁷ m/s", C: "3 × 10⁸ m/s", D: "3 × 10⁹ m/s" }, correctAnswer: "C", explanation: "c = 3 x 10^8 m/s." },
+            { id: "PH7", category: "Physics", question: "What is the SI unit of work?", options: { A: "Newton", B: "Joule", C: "Ampere", D: "Hertz" }, correctAnswer: "B", explanation: "Work is measured in Joules (J)." },
+            { id: "PH8", category: "Physics", question: "Which type of lens converges parallel rays of light?", options: { A: "Concave lens", B: "Convex lens", C: "Plane glass plate", D: "None of these" }, correctAnswer: "B", explanation: "Convex lens converges light rays." },
+            { id: "PH9", category: "Physics", question: "Which energy does a moving object possess because of its motion?", options: { A: "Chemical energy", B: "Potential energy", C: "Kinetic energy", D: "Nuclear energy" }, correctAnswer: "C", explanation: "Kinetic energy." },
+            { id: "PH10", category: "Physics", question: "A wave has a time period of 0.5 seconds. What is its frequency?", options: { A: "0.5 Hz", B: "1 Hz", C: "2 Hz", D: "5 Hz" }, correctAnswer: "C", explanation: "f = 1 / 0.5 = 2 Hz." },
+            { id: "PH11", category: "Physics", question: "A car moves around a circular track at constant speed. Which quantity stays constant?", options: { A: "Speed", B: "Velocity", C: "Acceleration", D: "Momentum" }, correctAnswer: "A", explanation: "Direction keeps changing, so velocity, acceleration and momentum change; only speed stays constant." },
+            { id: "PH12", category: "Physics", question: "When a moving bus stops suddenly, passengers jerk forward. This is explained by:", options: { A: "Newton's first law (inertia)", B: "Newton's second law", C: "Newton's third law", D: "Law of gravitation" }, correctAnswer: "A", explanation: "The body tends to keep its state of motion (inertia of motion)." },
+            { id: "PH13", category: "Physics", question: "A household electricity bill charges per kilowatt-hour. This unit measures:", options: { A: "Power", B: "Energy", C: "Current", D: "Voltage" }, correctAnswer: "B", explanation: "kWh = power x time, i.e. electrical energy consumed." },
+            { id: "PH14", category: "Physics", question: "In which medium does sound travel fastest?", options: { A: "Air", B: "Water", C: "Steel", D: "Vacuum" }, correctAnswer: "C", explanation: "Sound travels fastest in solids; it cannot travel in vacuum at all." },
+            { id: "PH15", category: "Physics", question: "If the length of a simple pendulum is made four times, its time period becomes:", options: { A: "Half", B: "Same", C: "Two times", D: "Four times" }, correctAnswer: "C", explanation: "T is proportional to the square root of L, so 4x length gives 2x period." },
+            { id: "PH16", category: "Physics", question: "Which visible colour has the longest wavelength?", options: { A: "Violet", B: "Blue", C: "Green", D: "Red" }, correctAnswer: "D", explanation: "Red ~700 nm is longest; violet ~400 nm is shortest." },
+            { id: "PH17", category: "Physics", question: "A hydraulic press works on which principle?", options: { A: "Archimedes' principle", B: "Boyle's law", C: "Pascal's law", D: "Newton's law of cooling" }, correctAnswer: "C", explanation: "Pressure applied to a confined fluid transmits equally in all directions." },
+            { id: "PH18", category: "Physics", question: "An object weighs 60 N on Earth. On the Moon (gravity 1/6 of Earth) it weighs:", options: { A: "6 N", B: "10 N", C: "36 N", D: "60 N" }, correctAnswer: "B", explanation: "60 / 6 = 10 N; mass stays the same, weight changes." },
+            { id: "PH19", category: "Physics", question: "Rear-view mirrors in vehicles are:", options: { A: "Plane mirrors", B: "Concave mirrors", C: "Convex mirrors", D: "Cylindrical mirrors" }, correctAnswer: "C", explanation: "Convex mirrors give a wider field of view with upright, diminished images." },
+            { id: "PH20", category: "Physics", question: "One horsepower is approximately equal to:", options: { A: "74.6 W", B: "746 W", C: "7460 W", D: "1000 W" }, correctAnswer: "B", explanation: "1 hp = 746 watts." },
+            { id: "MA11", category: "Mathematics", question: "If x + 1/x = 3, then x² + 1/x² = ?", options: { A: "5", B: "7", C: "9", D: "11" }, correctAnswer: "B", explanation: "(x + 1/x)² - 2 = 9 - 2 = 7." },
+            { id: "MA12", category: "Mathematics", question: "The sum of the first 20 natural numbers is:", options: { A: "190", B: "200", C: "210", D: "220" }, correctAnswer: "C", explanation: "n(n+1)/2 = 20 x 21 / 2 = 210." },
+            { id: "MA13", category: "Mathematics", question: "The HCF of 84 and 126 is:", options: { A: "14", B: "21", C: "42", D: "63" }, correctAnswer: "C", explanation: "84 = 2²x3x7, 126 = 2x3²x7; common = 2x3x7 = 42." },
+            { id: "MA14", category: "Mathematics", question: "A number increased by 20% gives 96. The number is:", options: { A: "76", B: "78", C: "80", D: "84" }, correctAnswer: "C", explanation: "1.2x = 96, so x = 80." },
+            { id: "MA15", category: "Mathematics", question: "If 2^(x+1) = 64, then x = ?", options: { A: "4", B: "5", C: "6", D: "7" }, correctAnswer: "B", explanation: "64 = 2^6, so x + 1 = 6 and x = 5." },
+            { id: "MA16", category: "Mathematics", question: "The average of five consecutive integers is 12. The smallest of them is:", options: { A: "9", B: "10", C: "11", D: "12" }, correctAnswer: "B", explanation: "The middle (3rd) number is 12, so the numbers are 10,11,12,13,14." },
+            { id: "MA17", category: "Mathematics", question: "Simple interest on Rs 5,000 at 8% per year for 3 years is:", options: { A: "Rs 1,000", B: "Rs 1,200", C: "Rs 1,400", D: "Rs 1,500" }, correctAnswer: "B", explanation: "I = PRT/100 = 5000 x 8 x 3 / 100 = 1200." },
+            { id: "MA18", category: "Mathematics", question: "The angle between the clock hands at 3:30 is:", options: { A: "60°", B: "75°", C: "90°", D: "105°" }, correctAnswer: "B", explanation: "Hour hand at 105°, minute hand at 180°; difference 75°." },
+            { id: "MA19", category: "Mathematics", question: "The next term of the series 2, 6, 12, 20, 30, ... is:", options: { A: "36", B: "40", C: "42", D: "44" }, correctAnswer: "C", explanation: "Terms are n(n+1): 6x7 = 42; differences grow 4,6,8,10,12." },
+            { id: "MA20", category: "Mathematics", question: "The angles of a triangle are in the ratio 1:2:3. The largest angle is:", options: { A: "60°", B: "75°", C: "90°", D: "120°" }, correctAnswer: "C", explanation: "180 x 3/6 = 90°." },
+            { id: "EN11", category: "English Grammar", question: "Choose the correct verb: 'Neither of the two boys ___ present.'", options: { A: "was", B: "were", C: "are", D: "have been" }, correctAnswer: "A", explanation: "'Neither' takes a singular verb." },
+            { id: "EN12", category: "English Grammar", question: "'She has been waiting since morning.' This sentence is in:", options: { A: "Present continuous", B: "Present perfect", C: "Present perfect continuous", D: "Past perfect" }, correctAnswer: "C", explanation: "has been + -ing shows an action continuing up to now." },
+            { id: "EN13", category: "English Grammar", question: "A synonym of 'abundant' is:", options: { A: "Scarce", B: "Plentiful", C: "Rare", D: "Tiny" }, correctAnswer: "B", explanation: "Abundant means existing in large quantity." },
+            { id: "EN14", category: "English Grammar", question: "The antonym of 'transparent' is:", options: { A: "Clear", B: "Opaque", C: "Bright", D: "Visible" }, correctAnswer: "B", explanation: "Opaque means light cannot pass through." },
+            { id: "EN15", category: "English Grammar", question: "Choose the correctly spelled word:", options: { A: "Occurence", B: "Occurance", C: "Occurrence", D: "Ocurrence" }, correctAnswer: "C", explanation: "Double c and double r: occurrence." },
+            { id: "EN16", category: "English Grammar", question: "Identify the adverb: 'He solved the puzzle quickly.'", options: { A: "He", B: "Solved", C: "Puzzle", D: "Quickly" }, correctAnswer: "D", explanation: "'Quickly' modifies the verb 'solved'." },
+            { id: "EN17", category: "English Grammar", question: "Change into indirect speech: He said, 'I am busy.'", options: { A: "He said that he is busy.", B: "He said that he was busy.", C: "He says that he was busy.", D: "He said that I am busy." }, correctAnswer: "B", explanation: "Reporting verb in past shifts present to past." },
+            { id: "EN18", category: "English Grammar", question: "Which one is a complex sentence?", options: { A: "He tried hard and failed.", B: "Although he tried hard, he failed.", C: "He tried hard but failed.", D: "He tried hard." }, correctAnswer: "B", explanation: "A complex sentence has a subordinate clause ('Although he tried hard')." },
+            { id: "EN19", category: "English Grammar", question: "The idiom 'to burn the midnight oil' means:", options: { A: "To waste resources", B: "To study or work late into the night", C: "To start a fire", D: "To sleep early" }, correctAnswer: "B", explanation: "It refers to working late, originally by oil lamp." },
+            { id: "EN20", category: "English Grammar", question: "Choose the correct preposition: 'He is good ___ mathematics.'", options: { A: "in", B: "at", C: "on", D: "for" }, correctAnswer: "B", explanation: "'Good at' a subject or skill." },
+            { id: "IS11", category: "Islamiat", question: "How many verses (ayahs) are in Surah Al-Fatiha?", options: { A: "5", B: "6", C: "7", D: "10" }, correctAnswer: "C", explanation: "Surah Al-Fatiha has seven verses." },
+            { id: "IS12", category: "Islamiat", question: "Which Surah is known as 'the heart of the Quran'?", options: { A: "Ar-Rahman", B: "Ya-Sin", C: "Al-Mulk", D: "Al-Ikhlas" }, correctAnswer: "B", explanation: "Ya-Sin is traditionally called the heart of the Quran." },
+            { id: "IS13", category: "Islamiat", question: "The first revelation of the Quran came in which cave?", options: { A: "Cave Thawr", B: "Cave Hira", C: "Mount Uhud", D: "Valley of Badr" }, correctAnswer: "B", explanation: "The first revelation came in Cave Hira near Makkah." },
+            { id: "IS14", category: "Islamiat", question: "The Quran was revealed over approximately how many years?", options: { A: "10", B: "20", C: "23", D: "40" }, correctAnswer: "C", explanation: "Revelation spanned about 23 years." },
+            { id: "IS15", category: "Islamiat", question: "Which prayer is offered without ruku and sujud?", options: { A: "Eid prayer", B: "Janazah prayer", C: "Jummah prayer", D: "Istisqa prayer" }, correctAnswer: "B", explanation: "The funeral (Janazah) prayer has no ruku or sujud." },
+            { id: "IS16", category: "Islamiat", question: "The standard Zakat rate on saved wealth is:", options: { A: "1%", B: "2.5%", C: "5%", D: "10%" }, correctAnswer: "B", explanation: "Zakat is 2.5% (one fortieth) of qualifying saved wealth." },
+            { id: "IS17", category: "Islamiat", question: "Which angel will blow the trumpet (Soor) on the Day of Judgement?", options: { A: "Jibreel", B: "Mikail", C: "Israfil", D: "Izrail" }, correctAnswer: "C", explanation: "Hazrat Israfil (AS) is assigned the blowing of the Soor." },
+            { id: "IS18", category: "Islamiat", question: "The Battle of Badr took place in which Hijri year?", options: { A: "1 AH", B: "2 AH", C: "3 AH", D: "5 AH" }, correctAnswer: "B", explanation: "Badr was fought in Ramadan, 2 AH." },
+            { id: "IS19", category: "Islamiat", question: "Stoning of Jamarat at Hajj begins on which day?", options: { A: "8th Zil-Hajjah", B: "9th Zil-Hajjah", C: "10th Zil-Hajjah", D: "12th Zil-Hajjah" }, correctAnswer: "C", explanation: "Rami of Jamarat al-Aqabah begins on 10th Zil-Hajjah." },
+            { id: "IS20", category: "Islamiat", question: "Which prophet was given the ability to understand the speech of animals and birds?", options: { A: "Dawood (AS)", B: "Sulaiman (AS)", C: "Musa (AS)", D: "Idris (AS)" }, correctAnswer: "B", explanation: "Prophet Sulaiman (AS) was given command over animals and birds." },
+            { id: "GK11", category: "GK & Pak Studies", question: "Which pass connects Pakistan with China?", options: { A: "Khyber Pass", B: "Bolan Pass", C: "Khunjerab Pass", D: "Lowari Pass" }, correctAnswer: "C", explanation: "Khunjerab Pass links Gilgit-Baltistan with Xinjiang, China." },
+            { id: "GK12", category: "GK & Pak Studies", question: "The largest desert of Pakistan is:", options: { A: "Cholistan", B: "Thar", C: "Thal", D: "Kharan" }, correctAnswer: "B", explanation: "The Thar Desert in Sindh is the largest." },
+            { id: "GK13", category: "GK & Pak Studies", question: "K2, the world's second highest peak, lies in which mountain range?", options: { A: "Himalaya", B: "Karakoram", C: "Hindu Kush", D: "Sulaiman Range" }, correctAnswer: "B", explanation: "K2 (8,611 m) is in the Karakoram range." },
+            { id: "GK14", category: "GK & Pak Studies", question: "Which country is called the 'Land of the Rising Sun'?", options: { A: "China", B: "Japan", C: "South Korea", D: "Thailand" }, correctAnswer: "B", explanation: "Japan's name literally relates to the rising sun." },
+            { id: "GK15", category: "GK & Pak Studies", question: "The SAARC headquarters is located in:", options: { A: "Islamabad", B: "Dhaka", C: "Kathmandu", D: "New Delhi" }, correctAnswer: "C", explanation: "SAARC secretariat is in Kathmandu, Nepal." },
+            { id: "GK16", category: "GK & Pak Studies", question: "Pakistan's highest civilian award is:", options: { A: "Hilal-e-Pakistan", B: "Nishan-e-Pakistan", C: "Sitara-e-Pakistan", D: "Tamgha-e-Pakistan" }, correctAnswer: "B", explanation: "Nishan-e-Pakistan is the highest civilian decoration." },
+            { id: "GK17", category: "GK & Pak Studies", question: "The Line of Control (LoC) separates which region between Pakistan and India?", options: { A: "Punjab", B: "Kashmir", C: "Sindh", D: "Rann of Kutch" }, correctAnswer: "B", explanation: "The LoC divides the Kashmir region between the two countries." },
+            { id: "GK18", category: "GK & Pak Studies", question: "Which sea lies to the south of Pakistan?", options: { A: "Red Sea", B: "Caspian Sea", C: "Arabian Sea", D: "Bay of Bengal" }, correctAnswer: "C", explanation: "Pakistan's southern coastline meets the Arabian Sea." },
+            { id: "GK19", category: "GK & Pak Studies", question: "The largest province of Pakistan by area is:", options: { A: "Punjab", B: "Sindh", C: "Balochistan", D: "Khyber Pakhtunkhwa" }, correctAnswer: "C", explanation: "Balochistan covers about 44% of Pakistan's area." },
+            { id: "GK20", category: "GK & Pak Studies", question: "The national flower of Pakistan is:", options: { A: "Rose", B: "Jasmine", C: "Tulip", D: "Sunflower" }, correctAnswer: "B", explanation: "Jasmine (chambeli) is the national flower." },
+            { id: "GK21", category: "GK & Pak Studies", question: "The OIC (Organisation of Islamic Cooperation) headquarters is in:", options: { A: "Riyadh", B: "Jeddah", C: "Cairo", D: "Istanbul" }, correctAnswer: "B", explanation: "The OIC secretariat is in Jeddah, Saudi Arabia." },
+            { id: "GK22", category: "GK & Pak Studies", question: "The national language of Pakistan is:", options: { A: "English", B: "Urdu", C: "Punjabi", D: "Sindhi" }, correctAnswer: "B", explanation: "Urdu is the national language under the Constitution." },
+            { id: "HB1", category: "Human Body", question: "How many bones are in the adult human body?", options: { A: "201", B: "206", C: "210", D: "215" }, correctAnswer: "B", explanation: "An adult skeleton has 206 bones." },
+            { id: "HB2", category: "Human Body", question: "Insulin is produced by which organ?", options: { A: "Liver", B: "Pancreas", C: "Kidney", D: "Spleen" }, correctAnswer: "B", explanation: "Beta cells of the pancreas secrete insulin." },
+            { id: "HB3", category: "Human Body", question: "The largest organ of the human body is:", options: { A: "Liver", B: "Skin", C: "Heart", D: "Lungs" }, correctAnswer: "B", explanation: "Skin is the largest organ by area and weight." },
+            { id: "HB4", category: "Human Body", question: "Normal human body temperature is approximately:", options: { A: "35°C", B: "36°C", C: "37°C", D: "39°C" }, correctAnswer: "C", explanation: "About 37°C (98.6°F)." },
+            { id: "HB5", category: "Human Body", question: "Which blood cells defend the body against infection?", options: { A: "Red blood cells", B: "White blood cells", C: "Platelets", D: "Plasma" }, correctAnswer: "B", explanation: "White blood cells are the immune defence." },
+            { id: "HB6", category: "Human Body", question: "The 'powerhouse of the cell' is the:", options: { A: "Nucleus", B: "Ribosome", C: "Mitochondria", D: "Golgi body" }, correctAnswer: "C", explanation: "Mitochondria produce ATP energy." },
+            { id: "CU1", category: "World Currencies", question: "The currency of Japan is the:", options: { A: "Yuan", B: "Yen", C: "Won", D: "Ringgit" }, correctAnswer: "B", explanation: "Japan uses the yen." },
+            { id: "CU2", category: "World Currencies", question: "The currency of Saudi Arabia is the:", options: { A: "Dinar", B: "Riyal", C: "Dirham", D: "Pound" }, correctAnswer: "B", explanation: "Saudi Arabia uses the riyal." },
+            { id: "CU3", category: "World Currencies", question: "The currency of China is the:", options: { A: "Yen", B: "Yuan", C: "Won", D: "Baht" }, correctAnswer: "B", explanation: "China uses the yuan (renminbi)." },
+            { id: "CU4", category: "World Currencies", question: "The currency of the United Kingdom is the:", options: { A: "Dollar", B: "Euro", C: "Pound sterling", D: "Franc" }, correctAnswer: "C", explanation: "The UK uses the pound sterling." },
+            { id: "CU5", category: "World Currencies", question: "The currency of Iran is the:", options: { A: "Rial", B: "Ruble", C: "Rupee", D: "Lira" }, correctAnswer: "A", explanation: "Iran uses the rial." }
+        ];
+
+        // Spread academic answer keys evenly so the test can't be gamed by always picking one letter
+        (function balanceAcademicKeys() {
+            const L = ["A", "B", "C", "D"];
+            const count = { A: 0, B: 0, C: 0, D: 0 };
+            ACADEMIC_BANK.forEach(q => {
+                const target = L.slice().sort((x, y) => (count[x] - count[y]) || x.localeCompare(y))[0];
+                const n = (L.indexOf(q.correctAnswer) - L.indexOf(target) + 4) % 4;
+                if (n) {
+                    const vals = L.map(k => q.options[k]);
+                    const out = {};
+                    L.forEach((k, j) => { out[k] = vals[(j + n) % 4]; });
+                    q.options = out;
+                    q.correctAnswer = target;
+                }
+                count[q.correctAnswer]++;
+            });
+        })();
+
+        // Each academic attempt draws a fresh random 50 from the full bank so repeats feel like a new paper
+        function sampleBank(bank, n) {
+            if (bank.length <= n) return bank.slice();
+            const arr = bank.slice();
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr.slice(0, n);
+        }
+
+        
+        // State Machine States
+        const STATES = {
+            LOGIN: "LOGIN",
+            DASHBOARD: "DASHBOARD",
+            VERBAL_DEMO: "VERBAL_DEMO",
+            VERBAL_TEST: "VERBAL_TEST",
+            VERBAL_RESULT: "VERBAL_RESULT",
+            NONVERBAL_DEMO: "NONVERBAL_DEMO",
+            NONVERBAL_TEST: "NONVERBAL_TEST",
+            NONVERBAL_RESULT: "NONVERBAL_RESULT",
+            ACADEMIC_DEMO: "ACADEMIC_DEMO",
+            ACADEMIC_TEST: "ACADEMIC_TEST",
+            ACADEMIC_RESULT: "ACADEMIC_RESULT",
+            FINAL_RESULT: "FINAL_RESULT",
+            ANSWER_REVIEW: "ANSWER_REVIEW"
+        };
+
+        class PMAPracticeApp {
+            constructor() {
+                this.currentState = STATES.LOGIN;
+                this.candidate = null;
+                
+                // Attempt state tracking
+                this.scores = { verbal: 0, nonverbal: 0, academic: 0 };
+                this.status = { verbal: "LOCKED", nonverbal: "LOCKED", academic: "LOCKED" };
+                
+                // Active Test Data
+                this.activeSection = null; // 'verbal', 'nonverbal', 'academic'
+                this.activeQuestions = [];
+                this.userAnswers = {};
+                this.currentIndex = 0;
+                
+                // Timers
+                this.timerInterval = null;
+                this.timeRemaining = 0; // seconds
+
+                this.init();
+            }
+
+            init() {
+                this.loadCandidateProfile();
+                this.updateUI();
+            }
+
+            // -----------------------------------------------------------------
+            // CANDIDATE PROFILE & LOCALSTORAGE MANAGEMENT
+            // -----------------------------------------------------------------
+            loadCandidateProfile() {
+                const stored = localStorage.getItem("pma_candidate");
+                if (stored) {
+                    try {
+                        this.candidate = JSON.parse(stored);
+                        this.currentState = STATES.DASHBOARD;
+                    } catch (e) {
+                        localStorage.removeItem("pma_candidate");
+                    }
+                }
+            }
+
+            saveCandidateProfile(name, roll) {
+                this.candidate = { name, roll, registeredAt: new Date().toISOString() };
+                localStorage.setItem("pma_candidate", JSON.stringify(this.candidate));
+            }
+
+            switchCandidate() {
+                if (confirm("Are you sure you want to change candidate profile? Current test session will reset.")) {
+                    this.candidate = null;
+                    localStorage.removeItem("pma_candidate");
+                    this.resetAttemptState();
+                    this.currentState = STATES.LOGIN;
+                    this.updateUI();
+                }
+            }
+
+            handleLogin(e) {
+                e.preventDefault();
+                const name = document.getElementById("inputCandidateName").value.trim();
+                const roll = document.getElementById("inputCandidateRoll").value.trim();
+
+                if (!name || !roll) return;
+
+                this.saveCandidateProfile(name, roll);
+                this.currentState = STATES.DASHBOARD;
+                this.updateUI();
+            }
+
+            resetAttemptState() {
+                this.scores = { verbal: 0, nonverbal: 0, academic: 0 };
+                this.status = { verbal: "UNLOCKED", nonverbal: "LOCKED", academic: "LOCKED" };
+                this.userAnswers = {};
+                this.activeQuestions = [];
+                this.currentIndex = 0;
+                this.stopTimer();
+            }
+
+            // -----------------------------------------------------------------
+            // TEST WORKFLOW & STATE MACHINE TRANSITIONS
+            // -----------------------------------------------------------------
+            startFullTestAttempt() {
+                this.resetAttemptState();
+                this.startStageDemo('verbal');
+            }
+
+            startStageDemo(section) {
+                this.activeSection = section;
+                this.activeQuestions = DEMO_QUESTIONS[section];
+                this.userAnswers = {};
+                this.currentIndex = 0;
+                
+                if (section === 'verbal') this.currentState = STATES.VERBAL_DEMO;
+                else if (section === 'nonverbal') this.currentState = STATES.NONVERBAL_DEMO;
+                else if (section === 'academic') this.currentState = STATES.ACADEMIC_DEMO;
+
+                this.startTimer(300, () => this.finishDemoAndStartActual()); // 5 mins demo timer
+                this.updateUI();
+                this.renderDemoQuestion();
+            }
+
+            finishDemoAndStartActual() {
+                this.stopTimer();
+                this.startActualSection(this.activeSection);
+            }
+
+            startActualSection(section) {
+                this.activeSection = section;
+                if (section === 'verbal') {
+                    this.activeQuestions = VERBAL_BANK;
+                    this.currentState = STATES.VERBAL_TEST;
+                } else if (section === 'nonverbal') {
+                    this.activeQuestions = NONVERBAL_BANK;
+                    this.currentState = STATES.NONVERBAL_TEST;
+                } else if (section === 'academic') {
+                    this.activeQuestions = sampleBank(ACADEMIC_BANK, 50);
+                    this.currentState = STATES.ACADEMIC_TEST;
+                }
+
+                this.userAnswers = {};
+                this.currentIndex = 0;
+                
+                // 30 minute test timer (1800s)
+                this.startTimer(1800, () => this.autoSubmitSection());
+                this.updateUI();
+                this.renderTestQuestion();
+                this.renderPalette();
+            }
+
+            // -----------------------------------------------------------------
+            // QUESTION RENDERERS
+            // -----------------------------------------------------------------
+            renderDemoQuestion() {
+                const q = this.activeQuestions[this.currentIndex];
+                document.getElementById("demoSectionTitle").innerText = `${this.activeSection.toUpperCase()} DEMONSTRATION`;
+                document.getElementById("demoQNum").innerText = this.currentIndex + 1;
+                document.getElementById("demoQuestionText").innerText = q.question;
+
+                // Figure Container logic
+                const figContainer = document.getElementById("demoFigureContainer");
+                if (q.fig) {
+                    figContainer.classList.remove("hidden");
+                    figContainer.innerHTML = this.figGivenHTML(q);
+                } else {
+                    figContainer.classList.add("hidden");
+                }
+
+                // Options
+                const optsList = document.getElementById("demoOptionsList");
+                optsList.innerHTML = "";
+                Object.keys(q.options).forEach(key => {
+                    const isSelected = this.userAnswers[q.id] === key;
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.onclick = () => {
+                        this.userAnswers[q.id] = key;
+                        this.renderDemoQuestion();
+                    };
+                    btn.className = `w-full text-left p-3 rounded-xl border text-xs sm:text-sm font-medium transition flex items-center justify-between ${
+                        isSelected 
+                        ? 'bg-blue-600/20 border-blue-500 text-blue-200' 
+                        : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800'
+                    }`;
+                    btn.innerHTML = q.optFigs ? `
+                        <span class="w-full flex items-center justify-center gap-2"><strong class="text-amber-400">${key}.</strong>${this.figPanelSVG(q.optFigs[key], 78)}</span>
+                        ${isSelected ? '<i class="fas fa-check-circle text-blue-400"></i>' : ''}
+                    ` : `
+                        <span><strong class="text-amber-400 mr-2">${key}.</strong> ${q.options[key]}</span>
+                        ${isSelected ? '<i class="fas fa-check-circle text-blue-400"></i>' : ''}
+                    `;
+                    optsList.appendChild(btn);
+                });
+
+                const btnNext = document.getElementById("btnDemoNext");
+                const isLast = this.currentIndex === this.activeQuestions.length - 1;
+                btnNext.innerHTML = isLast
+                    ? 'Start Actual Test <i class="fas fa-play ml-1"></i>'
+                    : 'Next <i class="fas fa-arrow-right ml-1"></i>';
+            }
+
+            renderTestQuestion() {
+                const q = this.activeQuestions[this.currentIndex];
+                document.getElementById("testQNum").innerText = this.currentIndex + 1;
+                document.getElementById("testQTotal").innerText = this.activeQuestions.length;
+                document.getElementById("testCategoryBadge").innerText = q.category || this.activeSection.toUpperCase();
+                document.getElementById("testQuestionText").innerText = q.question;
+
+                // Non-Verbal Figures
+                const figContainer = document.getElementById("testFigureContainer");
+                if (q.fig) {
+                    figContainer.classList.remove("hidden");
+                    figContainer.innerHTML = this.figGivenHTML(q);
+                } else {
+                    figContainer.classList.add("hidden");
+                }
+
+                // Options
+                const optsList = document.getElementById("testOptionsList");
+                optsList.innerHTML = "";
+                Object.keys(q.options).forEach(key => {
+                    const isSelected = this.userAnswers[q.id] === key;
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.onclick = () => {
+                        this.userAnswers[q.id] = key;
+                        this.renderTestQuestion();
+                        this.renderPalette();
+                    };
+                    btn.className = `w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm font-medium transition flex items-center justify-between ${
+                        isSelected 
+                        ? 'bg-emerald-600/20 border-emerald-500 text-emerald-200 shadow-md' 
+                        : 'bg-slate-950 border-slate-800 text-slate-300 hover:bg-slate-800/60'
+                    }`;
+                    btn.innerHTML = q.optFigs ? `
+                        <span class="w-full flex items-center justify-center gap-2"><strong class="text-amber-400">${key}.</strong>${this.figPanelSVG(q.optFigs[key], 78)}</span>
+                        ${isSelected ? '<i class="fas fa-check-circle text-emerald-400"></i>' : ''}
+                    ` : `
+                        <span><strong class="text-amber-400 mr-2">${key}.</strong> ${q.options[key]}</span>
+                        ${isSelected ? '<i class="fas fa-check-circle text-emerald-400"></i>' : ''}
+                    `;
+                    optsList.appendChild(btn);
+                });
+
+                // Update Palette Focus
+                this.renderPalette();
+            }
+
+            renderPalette() {
+                const grid = document.getElementById("paletteGrid");
+                grid.innerHTML = "";
+                
+                this.activeQuestions.forEach((q, idx) => {
+                    const ans = this.userAnswers[q.id];
+                    const isCurrent = idx === this.currentIndex;
+                    let btnClass = "bg-slate-800 text-slate-400 border-slate-700"; // Unanswered
+
+                    if (isCurrent) {
+                        btnClass = "bg-blue-600 text-white font-bold ring-2 ring-blue-400";
+                    } else if (ans === "__SKIPPED__") {
+                        btnClass = "bg-amber-500/20 text-amber-300 border-amber-500/40";
+                    } else if (ans) {
+                        btnClass = "bg-emerald-600 text-white font-bold";
+                    }
+
+                    const item = document.createElement("button");
+                    item.type = "button";
+                    item.onclick = () => {
+                        this.currentIndex = idx;
+                        this.renderTestQuestion();
+                    };
+                    item.className = `h-8 text-xs font-semibold rounded-lg border transition flex items-center justify-center ${btnClass}`;
+                    item.innerText = idx + 1;
+                    grid.appendChild(item);
+                });
+            }
+
+            // -----------------------------------------------------------------
+            // NON-VERBAL FIGURE RENDERER (grammar -> SVG)
+            // Token: SHAPE[.size][.fill]@SLOT[-inPARENT]
+            // -----------------------------------------------------------------
+            figPanelSVG(panelStr, px) {
+                let uid = (this._figUid = (this._figUid || 0) + 1);
+                const tokens = String(panelStr).split(",").map(s => s.trim()).filter(Boolean);
+                const SLOTS = { center: [50, 50], top: [50, 15], bottom: [50, 85], left: [15, 50], right: [85, 50], tl: [26, 26], tr: [74, 26], bl: [26, 74], br: [74, 74] };
+                const DIRV = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0], tl: [-.7, -.7], tr: [.7, -.7], bl: [-.7, .7], br: [.7, .7], center: [0, 0] };
+                const SIZES = { s: 16, m: 34, b: 56 };
+                const placed = [];
+                tokens.forEach(tok => {
+                    const at = tok.indexOf("@");
+                    const left = at >= 0 ? tok.slice(0, at) : tok;
+                    const pos = at >= 0 ? tok.slice(at + 1) : "center";
+                    const lp = left.split(".");
+                    const FIG_ALIAS = { "8": "eight", wedge: "wedgeR", pentagon: "pent", scurveSpiral1: "scurve", scurveSpiral2: "scurve", scurveHook: "scurve", ccurveSpiral2: "scurve", ycurveSpiral3: "scurve", leafOpen: "leaf" };
+                    let shape = lp[0].startsWith("other:") ? lp[0].slice(6) : lp[0];
+                    shape = FIG_ALIAS[shape] || shape;
+                    let size = "m", fill = "o";
+                    if (lp.length === 2) fill = lp[1];
+                    if (lp.length === 3) { size = lp[1]; fill = lp[2]; }
+                    let parent = null, slot = pos;
+                    const mi = pos.indexOf("-in");
+                    if (mi >= 0) { parent = Number(pos.slice(mi + 3)); slot = pos.slice(0, mi) || null; }
+                    else if (/^in\d+$/.test(pos)) { parent = Number(pos.slice(2)); slot = null; }
+                    let cx = 50, cy = 50, s = SIZES[size] || SIZES.m;
+                    if (parent !== null && placed[parent]) {
+                        const p = placed[parent];
+                        if (slot && DIRV[slot]) { cx = p.cx + DIRV[slot][0] * p.s * 0.36; cy = p.cy + DIRV[slot][1] * p.s * 0.36; }
+                        else { cx = p.cx; cy = p.cy; }
+                        s = (SIZES[size] && size !== "m") ? SIZES[size] : p.s * 0.52;
+                    } else if (SLOTS[slot]) { cx = SLOTS[slot][0]; cy = SLOTS[slot][1]; }
+                    placed.push({ shape, fill, cx, cy, s });
+                });
+                const stroke = "#e2e8f0", solid = "#d4af37";
+                const paint = (f) => f === "f" ? `fill="${solid}" stroke="${solid}"` : f === "h" ? `fill="url(#fh${uid})" stroke="${stroke}" stroke-width="2"` : f === "w" ? `fill="#0b1220" stroke="#0b1220"` : `fill="none" stroke="${stroke}" stroke-width="2.5"`;
+                const sw = `stroke-width="2.5" stroke="${stroke}" fill="none"`;
+                let body = "";
+                placed.forEach(el => {
+                    const { shape, fill, cx, cy } = el; const h = el.s / 2; const p = paint(fill);
+                    const poly = pts => `<polygon points="${pts.map(q => (cx + q[0] * h).toFixed(1) + "," + (cy + q[1] * h).toFixed(1)).join(" ")}" ${p}/>`;
+                    switch (shape) {
+                        case "tri": body += poly([[0, -1], [1, 1], [-1, 1]]); break;
+                        case "tridown": body += poly([[-1, -1], [1, -1], [0, 1]]); break;
+                        case "triLeft": body += poly([[1, -1], [1, 1], [-1, 0]]); break;
+                        case "triRight": body += poly([[-1, -1], [-1, 1], [1, 0]]); break;
+                        case "sq": body += `<rect x="${cx - h}" y="${cy - h}" width="${el.s}" height="${el.s}" ${p}/>`; break;
+                        case "rect": body += `<rect x="${cx - h}" y="${cy - h * .62}" width="${el.s}" height="${el.s * .62}" ${p}/>`; break;
+                        case "ci": body += `<circle cx="${cx}" cy="${cy}" r="${h}" ${p}/>`; break;
+                        case "oval": body += `<ellipse cx="${cx}" cy="${cy}" rx="${h * .68}" ry="${h}" ${p}/>`; break;
+                        case "capsH": body += `<ellipse cx="${cx}" cy="${cy}" rx="${h}" ry="${h * .4}" ${p}/>`; break;
+                        case "dot": body += `<circle cx="${cx}" cy="${cy}" r="${Math.max(2, h * .5)}" fill="${fill === "o" ? stroke : solid}"/>`; break;
+                        case "cross": { const t = h * .3; body += poly([[-t / h * h, -h], [t, -h], [t, -t], [h, -t], [h, t], [t, t], [t, h], [-t, h], [-t, t], [-h, t], [-h, -t], [-t, -t]].map(q => [q[0] / h, q[1] / h])); break; }
+                        case "trap": body += poly([[-.55, -.5], [.55, -.5], [1, .5], [-1, .5]]); break;
+                        case "trapinv": body += poly([[-1, -.5], [1, -.5], [.55, .5], [-.55, .5]]); break;
+                        case "diamond": body += poly([[0, -1], [1, 0], [0, 1], [-1, 0]]); break;
+                        case "hexagon": body += poly([[-.5, -.87], [.5, -.87], [1, 0], [.5, .87], [-.5, .87], [-1, 0]]); break;
+                        case "pent": case "pentagon": body += poly([[0, -1], [.95, -.31], [.59, .81], [-.59, .81], [-.95, -.31]]); break;
+                        case "heptagon": body += poly([[0, -1], [.78, -.62], [.97, .22], [.43, .9], [-.43, .9], [-.97, .22], [-.78, -.62]]); break;
+                        case "parallelogram": body += poly([[-.6, -.5], [1, -.5], [.6, .5], [-1, .5]]); break;
+                        case "paralBack": body += poly([[-1, -.5], [.6, -.5], [1, .5], [-.6, .5]]); break;
+                        case "line": body += `<line x1="${cx - h}" y1="${cy}" x2="${cx + h}" y2="${cy}" ${sw}/>`; break;
+                        case "lineV": case "barV": body += `<line x1="${cx}" y1="${cy - h}" x2="${cx}" y2="${cy + h}" ${sw}/>`; break;
+                        case "semi": body += `<path d="M ${cx - h} ${cy} A ${h} ${h} 0 0 1 ${cx + h} ${cy} Z" ${p}/>`; break;
+                        case "semidown": body += `<path d="M ${cx - h} ${cy} A ${h} ${h} 0 0 0 ${cx + h} ${cy} Z" ${p}/>`; break;
+                        case "arc": body += `<path d="M ${cx - h} ${cy + h * .4} A ${h} ${h} 0 0 1 ${cx + h} ${cy + h * .4}" ${sw}/>`; break;
+                        case "diagSlash": body += `<line x1="${cx - h}" y1="${cy + h}" x2="${cx + h}" y2="${cy - h}" ${sw}/>`; break;
+                        case "diagBack": body += `<line x1="${cx - h}" y1="${cy - h}" x2="${cx + h}" y2="${cy + h}" ${sw}/>`; break;
+                        case "diagSlashHalf": body += `<line x1="${cx}" y1="${cy + h}" x2="${cx + h}" y2="${cy - h}" ${sw}/>`; break;
+                        case "diagBackHalf": body += `<line x1="${cx - h}" y1="${cy - h}" x2="${cx}" y2="${cy + h}" ${sw}/>`; break;
+                        case "x": case "X": body += `<line x1="${cx - h * .8}" y1="${cy - h * .8}" x2="${cx + h * .8}" y2="${cy + h * .8}" ${sw}/><line x1="${cx - h * .8}" y1="${cy + h * .8}" x2="${cx + h * .8}" y2="${cy - h * .8}" ${sw}/>`; break;
+                        case "H": body += `<path d="M ${cx - h * .5} ${cy - h} V ${cy + h} M ${cx + h * .5} ${cy - h} V ${cy + h} M ${cx - h * .5} ${cy} H ${cx + h * .5}" ${sw}/>`; break;
+                        case "hourglass": body += poly([[-1, -1], [1, -1], [0, 0]]) + poly([[-1, 1], [1, 1], [0, 0]]); break;
+                        case "eight": body += `<circle cx="${cx}" cy="${cy - h * .5}" r="${h * .5}" ${p}/><circle cx="${cx}" cy="${cy + h * .5}" r="${h * .5}" ${p}/>`; break;
+                        case "asterisk": body += `<line x1="${cx - h}" y1="${cy}" x2="${cx + h}" y2="${cy}" ${sw}/><line x1="${cx}" y1="${cy - h}" x2="${cx}" y2="${cy + h}" ${sw}/><line x1="${cx - h * .7}" y1="${cy - h * .7}" x2="${cx + h * .7}" y2="${cy + h * .7}" ${sw}/><line x1="${cx - h * .7}" y1="${cy + h * .7}" x2="${cx + h * .7}" y2="${cy - h * .7}" ${sw}/>`; break;
+                        case "loopV": body += `<ellipse cx="${cx}" cy="${cy}" rx="${h * .35}" ry="${h}" ${p}/>`; break;
+                        case "loopH": body += `<ellipse cx="${cx}" cy="${cy}" rx="${h}" ry="${h * .35}" ${p}/>`; break;
+                        case "leaf": case "leafOpen": body += `<path d="M ${cx} ${cy - h} Q ${cx + h} ${cy} ${cx} ${cy + h} Q ${cx - h} ${cy} ${cx} ${cy - h} Z" ${p}/>`; break;
+                        case "drop": body += `<path d="M ${cx} ${cy - h} C ${cx + h} ${cy} ${cx + h * .6} ${cy + h} ${cx} ${cy + h} C ${cx - h * .6} ${cy + h} ${cx - h} ${cy} ${cx} ${cy - h} Z" ${p}/>`; break;
+                        case "moon": body += `<path d="M ${cx} ${cy - h} A ${h} ${h} 0 1 0 ${cx} ${cy + h} A ${h * .72} ${h * .72} 0 1 1 ${cx} ${cy - h} Z" ${p}/>`; break;
+                        case "bell": body += `<path d="M ${cx - h * .7} ${cy + h * .5} L ${cx - h * .7} ${cy} Q ${cx - h * .7} ${cy - h} ${cx} ${cy - h} Q ${cx + h * .7} ${cy - h} ${cx + h * .7} ${cy} L ${cx + h * .7} ${cy + h * .5} Z" ${p}/>`; break;
+                        case "star": case "star4": case "star6": { const n = shape === "star" ? 5 : shape === "star4" ? 4 : 6; let pts = []; for (let i = 0; i < n * 2; i++) { const r = i % 2 ? .45 : 1; const a = -Math.PI / 2 + i * Math.PI / n; pts.push([Math.cos(a) * r, Math.sin(a) * r]); } body += poly(pts); break; }
+                        case "bowl": body += `<path d="M ${cx - h} ${cy - h * .4} A ${h} ${h} 0 0 0 ${cx + h} ${cy - h * .4} Z" ${p}/>`; break;
+                        case "rtri": body += poly([[-1, 1], [1, 1], [1, -1]]); break;
+                        case "stair": body += `<path d="M ${cx - h} ${cy + h} V ${cy} H ${cx} V ${cy - h} H ${cx + h}" ${sw}/>`; break;
+                        case "corner": body += `<path d="M ${cx - h} ${cy - h} V ${cy + h} H ${cx + h}" ${sw}/>`; break;
+                        case "fan": body += `<path d="M ${cx} ${cy + h} L ${cx - h} ${cy - h * .6} A ${h * 1.3} ${h * 1.3} 0 0 1 ${cx + h} ${cy - h * .6} Z" ${p}/>`; break;
+                        case "opencirc": body += `<path d="M ${cx + h * .7} ${cy - h * .7} A ${h} ${h} 0 1 0 ${cx + h} ${cy}" ${sw}/>`; break;
+                        case "merge": case "mergewide": case "mergeinv": { const w = shape === "mergewide" ? 1.3 : 1; const dy = shape === "mergeinv" ? .5 : -.5; body += poly([[0, dy - .8], [w * .8, dy], [0, dy + .8], [-w * .8, dy]]) + poly([[0, -dy - .8], [w * .8, -dy], [0, -dy + .8], [-w * .8, -dy]]); break; }
+                        case "scurve": case "scurveSpiral1": case "scurveSpiral2": case "scurveHook": case "ccurveSpiral2": case "ycurveSpiral3": body += `<path d="M ${cx - h} ${cy - h} Q ${cx + h} ${cy - h * .3} ${cx} ${cy} Q ${cx - h} ${cy + h * .3} ${cx + h} ${cy + h}" ${sw}/>`; break;
+                        case "wedgeR": body += poly([[-1, -1], [1, -1], [1, 1]]); break;
+                        case "wedgeL": body += poly([[1, -1], [-1, -1], [-1, 1]]); break;
+                        case "wedgeUp": body += poly([[-1, 1], [1, 1], [-1, -1]]); break;
+                        case "wedgeDown": body += poly([[-1, -1], [1, -1], [1, 1]]); break;
+                        case "wedgeUR": body += poly([[-1, 1], [1, -1], [1, 1]]); break;
+                        case "wedgeDL": body += poly([[-1, -1], [1, 1], [-1, 1]]); break;
+                        case "halfWedgeBR": body += poly([[0, 0], [1, 0], [1, 1], [0, 1]]); break;
+                        case "n1": body += `<text x="${cx}" y="${cy + h * .8}" font-size="${el.s}" fill="${stroke}" text-anchor="middle">1</text>`; break;
+                        case "n2": body += `<text x="${cx}" y="${cy + h * .8}" font-size="${el.s}" fill="${stroke}" text-anchor="middle">2</text>`; break;
+                        default: {
+                            if (shape.startsWith("arrs")) { const dirs = shape.slice(4); let i = 0; for (const d of dirs) { const ax = cx - h + (i + .5) * (2 * h / dirs.length); body += this._arrow(ax, cy, h * .7, d, sw); i++; } break; }
+                            if (shape.startsWith("cyc")) { const dirs = shape.slice(3); let i = 0; for (let k = 0; k < dirs.length; k += 3) { const ax = cx - h + (i + .5) * (2 * h / Math.ceil(dirs.length / 3)); const ccw = dirs.substr(k, 3) === "CCW"; body += `<path d="M ${ax - h * .3} ${cy + h * .3} A ${h * .4} ${h * .4} 0 0 ${ccw ? 0 : 1} ${ax + h * .3} ${cy + h * .3}" ${sw}/>`; i++; } break; }
+                            if (shape.startsWith("stripes")) { const fs = shape.slice(7); let i = 0; for (const ch of fs) { const wdt = 2 * h / fs.length; const f2 = ch === "f" ? "f" : ch === "h" ? "h" : "o"; body += `<rect x="${(cx - h + i * wdt).toFixed(1)}" y="${cy - h}" width="${(wdt * .9).toFixed(1)}" height="${el.s}" ${paint(f2)}/>`; i++; } break; }
+                            if (/^(ci|sq)Row[23]$/.test(shape)) { const n = Number(shape.slice(-1)); const isC = shape.startsWith("ci"); let i = 0; for (; i < n; i++) { const ax = cx - h * .5 + i * h; if (isC) body += `<circle cx="${ax}" cy="${cy}" r="${h * .4}" ${p}/>`; else body += `<rect x="${ax - h * .35}" y="${cy - h * .35}" width="${h * .7}" height="${h * .7}" ${p}/>`; } break; }
+                            if (/^arr(N|S|E|W|NE|NW|SE|SW|WE|NESW)$/.test(shape)) { const dirs = shape === "arrWE" ? "WE" : shape === "arrNESW" ? "NESW" : shape.slice(3); let i = 0; const list = dirs.match(/NE|NW|SE|SW|N|S|E|W/g) || []; for (const d of list) { body += this._arrow(cx, cy, h * .8, d, sw, list.length > 1 ? (i++ % 2 ? 90 : 0) : 0); } break; }
+                            // tiles / fallback: outlined polygon so unknown glyphs stay visible
+                            body += poly([[0, -1], [.9, -.4], [.6, .8], [-.6, .8], [-.9, -.4]]);
+                        }
+                    }
+                });
+                return `<svg width="${px}" height="${px}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fh${uid}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="${stroke}" stroke-width="1.4"/></pattern></defs><rect x="1" y="1" width="98" height="98" rx="6" fill="#0b1220" stroke="#334155" stroke-width="1.5"/>${body}</svg>`;
+            }
+
+            _arrow(cx, cy, h, dir, sw, rot = 0) {
+                const V = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0], NE: [.7, -.7], NW: [-.7, -.7], SE: [.7, .7], SW: [-.7, .7] }[dir] || [0, -1];
+                const tx = cx + V[0] * h, ty = cy + V[1] * h;
+                const px = -V[1], py = V[0];
+                return `<line x1="${cx - V[0] * h}" y1="${cy - V[1] * h}" x2="${tx}" y2="${ty}" ${sw}/>` +
+                    `<polygon points="${tx},${ty} ${tx - V[0] * h * .5 + px * h * .3},${ty - V[1] * h * .5 + py * h * .3} ${tx - V[0] * h * .5 - px * h * .3},${ty - V[1] * h * .5 - py * h * .3}" fill="#e2e8f0"/>`;
+            }
+
+            figGivenHTML(q) {
+                const f = q.fig;
+                const box = (panelStr, px) => this.figPanelSVG(panelStr, px);
+                const label = t => `<span class="text-slate-400 text-xs font-bold px-1">${t}</span>`;
+                if (f.kind === "matrix") {
+                    let cells = f.grid.slice(0, 8).map(g => box(g, 74)).join("");
+                    cells += `<div class="w-[74px] h-[74px] rounded-md border-2 border-dashed border-amber-400/60 flex items-center justify-center text-amber-300 font-extrabold text-xl bg-slate-950">?</div>`;
+                    return `<div class="grid grid-cols-3 gap-1.5 justify-items-center mx-auto w-fit">${cells}</div>`;
+                }
+                if (f.kind === "series") {
+                    return `<div class="flex flex-wrap items-center justify-center gap-2">${f.seq.map(g => box(g, 84)).join("")}${label("→")}<div class="w-[84px] h-[84px] rounded-md border-2 border-dashed border-amber-400/60 flex items-center justify-center text-amber-300 font-extrabold text-xl bg-slate-950">?</div></div>`;
+                }
+                return `<div class="flex flex-wrap items-center justify-center gap-2">${box(f.a, 96)}${label("is to")}${box(f.b, 96)}${label("as")}${box(f.c, 96)}${label("is to")}<div class="w-[96px] h-[96px] rounded-md border-2 border-dashed border-amber-400/60 flex items-center justify-center text-amber-300 font-extrabold text-2xl bg-slate-950">?</div></div>`;
+            }
+
+            // Navigation Helpers
+            navigateDemo(direction) {
+                const newIdx = this.currentIndex + direction;
+                if (newIdx >= 0 && newIdx < this.activeQuestions.length) {
+                    this.currentIndex = newIdx;
+                    this.renderDemoQuestion();
+                }
+            }
+
+            demoNext() {
+                if (this.currentIndex === this.activeQuestions.length - 1) {
+                    this.finishDemoAndStartActual();
+                } else {
+                    this.navigateDemo(1);
+                }
+            }
+
+            navigateTest(direction) {
+                const newIdx = this.currentIndex + direction;
+                if (newIdx >= 0 && newIdx < this.activeQuestions.length) {
+                    this.currentIndex = newIdx;
+                    this.renderTestQuestion();
+                }
+            }
+
+            skipQuestion() {
+                const q = this.activeQuestions[this.currentIndex];
+                if (!this.userAnswers[q.id]) {
+                    this.userAnswers[q.id] = "__SKIPPED__";
+                }
+                this.navigateTest(1);
+            }
+
+            // -----------------------------------------------------------------
+            // SCORING & PASS/FAIL STRICT LOGIC
+            // -----------------------------------------------------------------
+            confirmTestSubmission() {
+                const unanswered = this.activeQuestions.filter(q => !this.userAnswers[q.id] || this.userAnswers[q.id] === "__SKIPPED__").length;
+                let msg = "Are you sure you want to submit this section?";
+                if (unanswered > 0) {
+                    msg = `You still have ${unanswered} unanswered/skipped question(s). Submit now anyway?`;
+                }
+                if (confirm(msg)) {
+                    this.submitSection();
+                }
+            }
+
+            autoSubmitSection() {
+                this.submitSection();
+            }
+
+            submitSection() {
+                this.stopTimer();
+
+                // Calculate score
+                let score = 0;
+                this.activeQuestions.forEach(q => {
+                    if (this.userAnswers[q.id] === q.correctAnswer) {
+                        score++;
+                    }
+                });
+
+                const total = this.activeQuestions.length;
+                const pct = Math.round((score / total) * 100);
+                
+                // Store Score
+                this.scores[this.activeSection] = score;
+
+                // Threshold Check: 50% of the section
+                const need = Math.ceil(total / 2);
+                let passed = score >= need;
+
+                if (passed) {
+                    this.status[this.activeSection] = "PASSED";
+                    if (this.activeSection === 'verbal') this.currentState = STATES.VERBAL_RESULT;
+                    else if (this.activeSection === 'nonverbal') this.currentState = STATES.NONVERBAL_RESULT;
+                    else if (this.activeSection === 'academic') {
+                        this.status.academic = "PASSED";
+                        this.saveAttemptHistory(true);
+                        this.currentState = STATES.FINAL_RESULT;
+                        this.updateUI();
+                        return;
+                    }
+                } else {
+                    this.status[this.activeSection] = "FAILED";
+                    this.saveAttemptHistory(false);
+                    if (this.activeSection === 'verbal') this.currentState = STATES.VERBAL_RESULT;
+                    else if (this.activeSection === 'nonverbal') this.currentState = STATES.NONVERBAL_RESULT;
+                    else if (this.activeSection === 'academic') this.currentState = STATES.ACADEMIC_RESULT;
+                }
+
+                this.updateUI();
+                this.renderSectionResult(score, total, pct, passed);
+            }
+
+            renderSectionResult(score, total, pct, passed) {
+                const banner = document.getElementById("resultBanner");
+                const iconBox = document.getElementById("resultIconBox");
+                const heading = document.getElementById("resultHeading");
+                const subheading = document.getElementById("resultSubheading");
+                const btnContinue = document.getElementById("btnResultContinue");
+                const btnRestart = document.getElementById("btnResultRestart");
+
+                document.getElementById("resScoreText").innerText = `${score} / ${total}`;
+                document.getElementById("resPercentageText").innerText = `${pct}%`;
+
+                if (passed) {
+                    banner.className = "p-4 rounded-xl flex flex-col items-center justify-center space-y-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400";
+                    iconBox.className = "w-16 h-16 rounded-full flex items-center justify-center text-3xl font-extrabold shadow-lg bg-emerald-600 text-white";
+                    iconBox.innerHTML = '<i class="fas fa-check"></i>';
+                    heading.innerText = `CONGRATULATIONS! YOU HAVE PASSED THE ${this.activeSection.toUpperCase()} PORTION`;
+                    subheading.innerText = `You achieved the required minimum score (50%). You are now eligible to proceed to the next stage.`;
+                    
+                    document.getElementById("resStatusBadge").innerText = "PASSED";
+                    document.getElementById("resStatusBadge").className = "text-sm font-bold uppercase block mt-1 text-emerald-400";
+
+                    btnContinue.classList.remove("hidden");
+                    btnRestart.classList.add("hidden");
+                } else {
+                    banner.className = "p-4 rounded-xl flex flex-col items-center justify-center space-y-2 bg-red-500/10 border border-red-500/30 text-red-400";
+                    iconBox.className = "w-16 h-16 rounded-full flex items-center justify-center text-3xl font-extrabold shadow-lg bg-red-600 text-white";
+                    iconBox.innerHTML = '<i class="fas fa-times"></i>';
+                    heading.innerText = "BETTER LUCK NEXT TIME!";
+                    subheading.innerText = `NON-ELIGIBLE — ${this.activeSection.toUpperCase()} PORTION NOT CLEARED. You did not achieve the required 50% cutoff. Your practice test attempt has ended.`;
+                    
+                    document.getElementById("resStatusBadge").innerText = "FAILED";
+                    document.getElementById("resStatusBadge").className = "text-sm font-bold uppercase block mt-1 text-red-400";
+
+                    btnContinue.classList.add("hidden");
+                    btnRestart.classList.remove("hidden");
+                }
+            }
+
+            proceedToNextStage() {
+                if (this.activeSection === 'verbal') {
+                    this.startStageDemo('nonverbal');
+                } else if (this.activeSection === 'nonverbal') {
+                    this.startStageDemo('academic');
+                }
+            }
+
+            restartTestAttempt() {
+                this.resetAttemptState();
+                this.currentState = STATES.DASHBOARD;
+                this.updateUI();
+            }
+
+            // -----------------------------------------------------------------
+            // ANSWER REVIEW SYSTEM
+            // -----------------------------------------------------------------
+            showAnswerReview() {
+                this.currentState = STATES.ANSWER_REVIEW;
+                this.updateUI();
+
+                const container = document.getElementById("answerReviewList");
+                container.innerHTML = "";
+
+                this.activeQuestions.forEach((q, idx) => {
+                    const userAns = this.userAnswers[q.id];
+                    const isCorrect = userAns === q.correctAnswer;
+
+                    const card = document.createElement("div");
+                    card.className = `p-4 rounded-xl border text-xs sm:text-sm ${
+                        isCorrect ? 'bg-emerald-950/20 border-emerald-800/60' : 'bg-red-950/20 border-red-800/60'
+                    }`;
+
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between font-bold mb-2">
+                            <span class="text-slate-300">Q${idx + 1}. ${q.question}</span>
+                            <span class="${isCorrect ? 'text-emerald-400' : 'text-red-400'} font-bold">
+                                ${isCorrect ? '<i class="fas fa-check-circle"></i> Correct' : '<i class="fas fa-times-circle"></i> Incorrect'}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 my-2 text-xs">
+                            <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                                <span class="text-slate-500 block">Your Answer:</span>
+                                <span class="font-bold ${isCorrect ? 'text-emerald-300' : 'text-red-300'}">
+                                    ${userAns && userAns !== '__SKIPPED__' ? `${userAns}: ${q.options[userAns]}` : 'Skipped / Unanswered'}
+                                </span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                                <span class="text-slate-500 block">Correct Key:</span>
+                                <span class="font-bold text-emerald-400">${q.correctAnswer}: ${q.options[q.correctAnswer]}</span>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 pt-2 border-t border-slate-800/80">
+                            <strong>Explanation:</strong> ${q.explanation}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            closeAnswerReview() {
+                if (this.scores.verbal < 42 || this.scores.nonverbal < 32 || this.scores.academic < 25) {
+                    this.currentState = STATES.DASHBOARD;
+                } else {
+                    this.currentState = STATES.FINAL_RESULT;
+                }
+                this.updateUI();
+            }
+
+            // -----------------------------------------------------------------
+            // LOCAL ATTEMPT HISTORY PERSISTENCE
+            // -----------------------------------------------------------------
+            saveAttemptHistory(overallPassed) {
+                if (!this.candidate) return;
+
+                const history = JSON.parse(localStorage.getItem("pma_history") || "[]");
+                const newRecord = {
+                    id: "ATT_" + Date.now(),
+                    candidateName: this.candidate.name,
+                    rollNumber: this.candidate.roll,
+                    date: new Date().toLocaleString(),
+                    scores: { ...this.scores },
+                    totalScore: this.scores.verbal + this.scores.nonverbal + this.scores.academic,
+                    overallPassed: overallPassed
+                };
+
+                history.unshift(newRecord);
+                localStorage.setItem("pma_history", JSON.stringify(history));
+            }
+
+            showHistoryModal() {
+                const modal = document.getElementById("modalHistory");
+                const container = document.getElementById("historyTableContainer");
+                const history = JSON.parse(localStorage.getItem("pma_history") || "[]");
+
+                modal.classList.remove("hidden");
+
+                if (history.length === 0) {
+                    container.innerHTML = `<div class="text-center py-8 text-xs text-slate-500">No past attempts recorded in local browser storage.</div>`;
+                    return;
+                }
+
+                let html = `
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-800 text-slate-300 border-b border-slate-700">
+                                <th class="p-2.5">Date</th>
+                                <th class="p-2.5">Candidate</th>
+                                <th class="p-2.5 text-center">Verbal</th>
+                                <th class="p-2.5 text-center">Non-Verbal</th>
+                                <th class="p-2.5 text-center">Academic</th>
+                                <th class="p-2.5 text-right">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                `;
+
+                history.forEach(rec => {
+                    html += `
+                        <tr>
+                            <td class="p-2.5 text-[10px] text-slate-400">${rec.date}</td>
+                            <td class="p-2.5 font-semibold text-slate-200">${rec.candidateName} <span class="text-[10px] font-mono text-slate-500">(${rec.rollNumber})</span></td>
+                            <td class="p-2.5 text-center font-mono">${rec.scores.verbal || 0}/84</td>
+                            <td class="p-2.5 text-center font-mono">${rec.scores.nonverbal || 0}/64</td>
+                            <td class="p-2.5 text-center font-mono">${rec.scores.academic || 0}/50</td>
+                            <td class="p-2.5 text-right font-bold ${rec.overallPassed ? 'text-emerald-400' : 'text-red-400'}">
+                                ${rec.overallPassed ? 'ELIGIBLE' : 'NON-ELIGIBLE'}
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            }
+
+            closeHistoryModal() {
+                document.getElementById("modalHistory").classList.add("hidden");
+            }
+
+            clearLocalHistory() {
+                if (confirm("Clear all local attempt history from this browser?")) {
+                    localStorage.removeItem("pma_history");
+                    this.showHistoryModal();
+                }
+            }
+
+            // -----------------------------------------------------------------
+            // TIMER ENGINE
+            // -----------------------------------------------------------------
+            startTimer(seconds, onExpire) {
+                this.stopTimer();
+                this.timeRemaining = seconds;
+                this.updateTimerDisplays();
+
+                this.timerInterval = setInterval(() => {
+                    this.timeRemaining--;
+                    this.updateTimerDisplays();
+
+                    if (this.timeRemaining <= 0) {
+                        this.stopTimer();
+                        if (onExpire) onExpire();
+                    }
+                }, 1000);
+            }
+
+            stopTimer() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                }
+            }
+
+            updateTimerDisplays() {
+                const mins = Math.floor(this.timeRemaining / 60);
+                const secs = this.timeRemaining % 60;
+                const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+                const d1 = document.getElementById("demoTimerDisplay");
+                const d2 = document.getElementById("testTimerDesktop");
+                const d3 = document.getElementById("testTimerMobile");
+
+                if (d1) d1.innerText = formatted;
+                if (d2) d2.innerText = formatted;
+                if (d3) d3.innerText = formatted;
+            }
+
+            // -----------------------------------------------------------------
+            // VIEW SWITCHER & UI UPDATER
+            // -----------------------------------------------------------------
+            showDashboard() {
+                this.currentState = STATES.DASHBOARD;
+                this.updateUI();
+            }
+
+            updateUI() {
+                // Hide all views first
+                const views = [
+                    "viewLogin", "viewDashboard", "viewDemo", "viewTest", 
+                    "viewSectionResult", "viewFinalResult", "viewAnswerReview"
+                ];
+                views.forEach(v => {
+                    const el = document.getElementById(v);
+                    if (el) el.classList.add("hidden");
+                });
+
+                // Header info update
+                const headerInfo = document.getElementById("headerCandidateInfo");
+                if (this.candidate) {
+                    headerInfo.classList.remove("hidden");
+                    document.getElementById("headerCandidateName").innerText = this.candidate.name;
+                    document.getElementById("headerCandidateRoll").innerText = `Roll: ${this.candidate.roll}`;
+                    document.getElementById("headerAvatar").innerText = this.candidate.name.charAt(0).toUpperCase();
+                } else {
+                    headerInfo.classList.add("hidden");
+                }
+
+                // Render specific view based on currentState
+                switch (this.currentState) {
+                    case STATES.LOGIN:
+                        document.getElementById("viewLogin").classList.remove("hidden");
+                        break;
+
+                    case STATES.DASHBOARD:
+                        document.getElementById("viewDashboard").classList.remove("hidden");
+                        break;
+
+                    case STATES.VERBAL_DEMO:
+                    case STATES.NONVERBAL_DEMO:
+                    case STATES.ACADEMIC_DEMO:
+                        document.getElementById("viewDemo").classList.remove("hidden");
+                        break;
+
+                    case STATES.VERBAL_TEST:
+                    case STATES.NONVERBAL_TEST:
+                    case STATES.ACADEMIC_TEST:
+                        document.getElementById("viewTest").classList.remove("hidden");
+                        document.getElementById("testSectionTitle").innerText = `${this.activeSection.toUpperCase()} INTELLIGENCE TEST`;
+                        break;
+
+                    case STATES.VERBAL_RESULT:
+                    case STATES.NONVERBAL_RESULT:
+                    case STATES.ACADEMIC_RESULT:
+                        document.getElementById("viewSectionResult").classList.remove("hidden");
+                        break;
+
+                    case STATES.FINAL_RESULT:
+                        document.getElementById("viewFinalResult").classList.remove("hidden");
+                        this.renderFinalResultData();
+                        break;
+
+                    case STATES.ANSWER_REVIEW:
+                        document.getElementById("viewAnswerReview").classList.remove("hidden");
+                        break;
+                }
+            }
+
+            renderFinalResultData() {
+                const v = this.scores.verbal || 0;
+                const nv = this.scores.nonverbal || 0;
+                const ac = this.scores.academic || 0;
+                const total = v + nv + ac;
+
+                document.getElementById("finalVerbalScore").innerText = `${v} / 84`;
+                document.getElementById("finalVerbalPct").innerText = `${Math.round((v / 84) * 100)}%`;
+
+                document.getElementById("finalNonVerbalScore").innerText = `${nv} / 64`;
+                document.getElementById("finalNonVerbalPct").innerText = `${Math.round((nv / 64) * 100)}%`;
+
+                document.getElementById("finalAcademicScore").innerText = `${ac} / 50`;
+                document.getElementById("finalAcademicPct").innerText = `${Math.round((ac / 50) * 100)}%`;
+
+                document.getElementById("finalCombinedScore").innerText = `${total} / 198`;
+                document.getElementById("finalCombinedPct").innerText = `${Math.round((total / 198) * 100)}%`;
+            }
+        }
+
+        // Initialize Global App Instance
+        let app;
+        window.addEventListener("DOMContentLoaded", () => {
+            app = new PMAPracticeApp();
+        });
+    </script>
+</body>
+</html>
